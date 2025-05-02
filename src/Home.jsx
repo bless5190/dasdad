@@ -63,9 +63,9 @@ export default function Home() {
   }, []);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.3)' }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.5)' }}>
       {/* Header */}
-      <header className="flex justify-between items-center py-4 px-6 border-b border-gray-800 shadow-md bg-gradient-to-b from-black/70 to-transparent">
+      <header className="flex justify-between items-center py-2 px-6 border-b border-gray-800 shadow-md bg-black bg-opacity-60">
         <img src="/Emblema.png" alt="CAST Logo" className="h-24 opacity-80" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-white transition-colors">Início</a>
@@ -79,7 +79,7 @@ export default function Home() {
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white flex justify-center items-center gap-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 bg-gradient-to-r from-green-300 via-white to-green-300 text-transparent bg-clip-text flex justify-center items-center gap-3" style={{ fontFamily: 'Cinzel, serif' }}>
           <FaHandshake className="text-blue-400" /> CAST SERVIÇOS DIGITAIS
         </h1>
         <p className="text-lg md:text-xl text-white max-w-2xl mx-auto bg-black/60 p-4 rounded-xl shadow-lg">
