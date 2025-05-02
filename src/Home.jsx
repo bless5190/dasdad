@@ -66,9 +66,7 @@ export default function Home() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.75)' }}>
       {/* Header */}
       <header className="flex justify-between items-center py-1 px-6 border-b border-gray-800 shadow-md bg-black bg-opacity-60">
-          <h1 className="text-xl md:text-2xl font-extrabold text-white bg-black/40 px-4 py-1 rounded-md shadow" style={{ fontFamily: 'Cinzel, serif' }}>
-            CAST SERVIÇOS DIGITAIS
-          </h1>
+        <img src="/Emblema.png" alt="CAST Logo" className="h-10 opacity-80" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-white transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
@@ -81,6 +79,9 @@ export default function Home() {
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white" style={{ fontFamily: 'Cinzel, serif' }}>
+          CAST SERVIÇOS DIGITAIS
+        </h1>
         
         <p className="text-lg md:text-xl text-white max-w-2xl mx-auto bg-black/60 p-4 rounded-xl shadow-lg">
           Compra e venda de criptoativos com segurança, transparência e atendimento humanizado.
