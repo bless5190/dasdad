@@ -42,29 +42,31 @@ export default function Home() {
       });
     };
   }, []);
-
+  
   const CryptoPrice = ({ id, label }) => {
-    const [price, setPrice] = React.useState(null);
+  const [price, setPrice] = React.useState(null);
 
-    useEffect(() => {
-      fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
-        .then(res => res.json())
-        .then(data => setPrice(data[id]?.brl));
-    }, [id]);
+  useEffect(() => {
+    fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
+      .then(res => res.json())
+      .then(data => setPrice(data[id]?.brl));
+  }, [id]);
 
-    return (
-      <div className="bg-gray-800 p-4 rounded-lg shadow-md text-white border border-gray-700 w-full max-w-xs mx-auto text-left"
-        <h3 className="text-lg font-bold mb-1 text-green-300">{label}</h3>
-        <p className="text-green-400 text-xl font-medium"{price ? `R$ ${price.toFixed(2)}` : 'Carregando...'}</p>
-      </div>
-    );
-  };
+  return (
+    <div className="bg-gray-800 p-4 rounded-lg shadow-md text-white border border-gray-700 w-full max-w-xs mx-auto text-left">
+      <h3 className="text-lg font-bold mb-1 text-green-300">{label}</h3>
+      <p className="text-green-400 text-xl font-medium">
+        {price ? `R$ ${price.toFixed(2)}` : 'Carregando...'}
+      </p>
+    </div>
+  );
+};
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="bg-gradient-to-b from-gray-950 to-gray-900 text-white min-h-screen font-sans">
       {/* Header */}
       <header className="flex justify-between items-center p-6 border-b border-gray-800 shadow-md">
-        <img src="/ChatGPT Image 12 de abr. de 2025, 21_35_17.png" alt="CAST Logo" className="h-28 opacity-80" />
+        <img src="/logo_verde_transparente.png" alt="CAST Logo" className="h-20 opacity-80" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-white transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
@@ -73,24 +75,25 @@ export default function Home() {
           <a href="#contato" className="hover:text-green-400 transition-colors">Contato</a>
         </nav>
       </header>
-
-      {/* Seção Sobre */}
-      <section id="sobre" className="py-16 px-6 bg-gray-900 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6 text-white">Sobre a CAST SERVIÇOS DIGITAIS</h2>
-          <p className="text-gray-400 text-lg leading-relaxed">
-            A CAST Serviços Digitais é uma empresa respeitada e sólida dentro do mercado de compra e venda de criptoativos. Atuando sempre com excelência, respeito e transparência nas suas relações.<br/><br/>
-            Buscando sempre as melhores inovações e possuíndo tecnologia de ponta para prover relações com segurança e tranquilidade dentro do ambiente crypto.<br/><br/>
-            O objetivo da CAST Serviços Digitais é proporcionar a melhor experiência para os nossos clientes, pois sabemos dos desafios e dificuldades encontrados para a realização de transações seguras dentro desse mercado que cresce tanto.<br/><br/>
-            Esperamos poder atender e corresponder as expectativas impostas, sempre mirando na excelência e transparência.
-          </p>
-        </div>
-      </section>
+<section id="sobre" className="py-16 px-6 bg-gray-900 text-center">
+  <div className="max-w-4xl mx-auto">
+    <h2 className="text-3xl font-bold mb-6 text-white">Sobre a CAST SERVIÇOS DIGITAIS</h2>
+    <p className="text-gray-400 text-lg leading-relaxed">
+      A CAST Serviços Digitais é uma empresa respeitada e sólida dentro do mercado de compra e venda de criptoativos. Atuando sempre com excelência, respeito e transparência nas suas relações.<br/><br/>
+      Buscando sempre as melhores inovações e possuindo tecnologia de ponta para prover relações com segurança e tranquilidade dentro do ambiente crypto.<br/><br/>
+      O objetivo da CAST Serviços Digitais é proporcionar a melhor experiência para os nossos clientes, pois sabemos dos desafios e dificuldades encontrados para a realização de transações seguras dentro desse mercado que cresce tanto.<br/><br/>
+      Esperamos poder atender e corresponder às expectativas impostas, sempre mirando na excelência e transparência.
+    </p>
+  </div>
+</section>
 
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-        <img src="/ChatGPT Image 12 de abr. de 2025, 21_35_17.png" alt="CAST Logo Emblema" className="mx-auto h-60 mb-6 opacity-80" />
--lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+        <img src="/logo_verde_transparente.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-green-400 flex justify-center items-center gap-3">
+          <FaHandshake className="text-blue-400" /> CAST SERVIÇOS DIGITAIS
+        </h1>
+        <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
           Compra e venda de criptoativos com segurança, transparência e atendimento humanizado.
         </p>
         <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-8 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl shadow-lg text-lg transition-transform hover:scale-105">
@@ -98,17 +101,7 @@ export default function Home() {
         </a>
       </motion.section>
 
-      {/* Cotações CoinGecko */}
-      <motion.section className="py-10 px-6 bg-gray-900 text-center">
-  <h2 className="text-2xl font-bold text-green-400 mb-6">Cotações em Tempo Real</h2>
-  <div className="flex flex-col md:flex-row justify-center items-center gap-4">
-    {[{ id: 'bitcoin', label: 'Bitcoin' }, { id: 'ethereum', label: 'Ethereum' }, { id: 'tether', label: 'Tether' }].map((coin) => (
-      <CryptoPrice key={coin.id} id={coin.id} label={coin.label} />
-    ))}
-  </div>
-</motion.section>
-
-      {/* Seção de Políticas KYC e AML */}
+            {/* Seção de Políticas KYC e AML */}
       <section id="politicas" className="py-16 px-6 bg-gray-800 text-center">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-white">Nossas Políticas</h2>
@@ -131,10 +124,99 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Rodapé com logo identificável */}
+      {/* Serviços */}
+      <motion.section id="servicos" className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-green-400 mb-8 flex justify-center items-center gap-2">
+            <FaBitcoin className="text-orange-400" /> Serviços
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-gray-800 p-6 rounded-2xl shadow-lg">
+              <h3 className="text-xl font-bold text-green-300 mb-4">Cotações em tempo real</h3>
+              <iframe src="https://br.widgets.investing.com/live-currency-cross-rates?theme=darkTheme" width="100%" height="300" frameBorder="0" allowTransparency="true"></iframe>
+            </div>
+            <div className="bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col justify-center">
+              <p className="text-green-200 text-3xl font-extrabold mb-6 leading-relaxed">
+                Deseja comprar ou vender Criptoativos?
+              </p>
+              <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl shadow w-fit mx-auto text-lg">
+                <FaWhatsapp /> Fale pelo WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Notícias */}
+      <motion.section className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+  <div className="max-w-4xl mx-auto text-center">
+    <h2 className="text-3xl font-bold text-green-400 mb-10 flex items-center justify-center gap-2">
+      <FaStar className="text-yellow-400" /> Feedbacks dos Clientes
+    </h2>
+    <div className="grid md:grid-cols-2 gap-6 text-left">
+      <div className="bg-gray-800 p-4 rounded-xl shadow">
+        <p className="text-green-300 font-semibold">Transação rápida</p>
+        <p className="text-sm text-gray-400">P2P-368582dz • 2025-04-30</p>
+      </div>
+      <div className="bg-gray-800 p-4 rounded-xl shadow">
+        <p className="text-green-300 font-semibold">Transação rápida, Educado e amigável</p>
+        <p className="text-sm text-gray-400">P2P-9fd053vf • 2025-04-15</p>
+      </div>
+      <div className="bg-gray-800 p-4 rounded-xl shadow">
+        <p className="text-green-300 font-semibold">Obrigado!</p>
+        <p className="text-sm text-gray-400">VitorBarbosaJr • 2025-04-11</p>
+      </div>
+      <div className="bg-gray-800 p-4 rounded-xl shadow">
+        <p className="text-green-300 font-semibold">Excelente atendimento e liberação ágil</p>
+        <p className="text-sm text-gray-400">Usuário Anônimo • 2025-04-13</p>
+      </div>
+    </div>
+  </div>
+</motion.section>
+
+<motion.section id="noticias" className="py-20 px-6 bg-gray-800" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+  <div className="max-w-4xl mx-auto text-center">
+    <h2 className="text-3xl font-bold text-green-400 mb-6">Notícias</h2>
+    <div className="grid md:grid-cols-2 gap-8">
+  <div className="bg-gray-800 p-6 rounded-xl shadow">
+    <h3 className="text-xl font-bold text-green-300 mb-4">Cotações</h3>
+    <iframe src="https://br.widgets.investing.com/live-currency-cross-rates?theme=darkTheme" width="100%" height="300" frameBorder="0" allowTransparency="true"></iframe>
+  </div>
+  <div className="bg-gray-800 p-6 rounded-xl shadow text-left">
+    <h3 className="text-xl font-bold text-green-300 mb-4">Últimas Notícias</h3>
+    <ul className="text-sm space-y-2 text-gray-300">
+  {news.map((item, index) => (
+    <li key={index}>
+      <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-green-400 hover:underline">
+        {item.title}
+      </a>
+      <div className="text-xs text-gray-400">{new Date(item.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
+    </li>
+  ))}
+</ul>
+  </div>
+</div>
+  </div>
+</motion.section>
+
+      {/* Contato */}
+      <motion.section id="contato" className="py-20 px-6" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-green-400 mb-6">Contato</h2>
+          <p className="text-gray-300 mb-6">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
+          <form className="space-y-4">
+            <input type="text" placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <input type="email" placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <textarea placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
+            <button type="submit" className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded text-white">Enviar</button>
+          </form>
+        </div>
+      </motion.section>
+
+      {/* Rodapé com selo */}
       <footer className="bg-gray-950 text-center py-6 border-t border-gray-800 mt-10 text-gray-500 text-sm">
         <div className="mb-2">
-          <img src="/ChatGPT Image 12 de abr. de 2025, 21_35_17.png" alt="CAST Logo Rodapé" className="h-10 inline-block mr-2 opacity-80" />
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAMAAAANIilAAAAAUVBMVEX///8AAAB/f3+jo6PZ2dnr6+v7+/vf39+cnJxLS0uHh4e3t7drampKSko6OjoZGRkpKSl1dXV4eHhBQUEeHh6JiYnj4+NwcHAgICBZWVnd7AaVAAAG/UlEQVR4nO2d63KrIAxFnRFFvqr7/39uWy5Qb0Rmx0znXfnmkiZCmQo8yS3H8qMywAAAAAAAAAAAAAAAAAAAAAAAAAAD8H+g1Mr+yB7VHH2csYfzq6DHeTrfR+cfnYHfKbrIv+d54jNV+sbPf2Po9dwcfsPoM/y/UYrkN3ZAX0g9Et7XFoSR9vFe04PbCX+XdjEP29v2kFdpPu+HZjEL3Zvo3mXzYjKq4k3MdOZ3IvbUwOyv7t9wrBtp9ezKxzGvQ2nOV+PrmuHzltwew5bNWLxjoPVvFhn6Yfd+K/Xjr8J68XpNKktMNkcNPYz8p69MoTcztdi2sl6gE1/sixjsO7wZ5kRY+HoZqrr+13nbfjhzht/XUIRfGy+ZaHcRra7rOrq49pssZX9cWbapHJmvRWKjErppEYra9pNKqHbUisveZ11bflOzVKqUb1KmqD7FZErU1oPFqS2qa1KaQfZtXT8m+X82nm+hRqN0NWOZdX0yybfMyFZmoRnS6vVv/bavj83NmCk8krnFLZXYhZ3GHdthEo03qNlh6q9nkmRdrGa+s9ixWptQ+gSpUVazmYyrcRTFHpU2MSmTTu4f3tbaw0iM6NZnbzRL4U8NGStgZdKSmK6vGtaoeFbr2NLWeo9PY3bG9t7vLZKynlnJm8T9SaH4hxHdqGZHkTcRHV8/kHFaZhzfTfHov07p3Wkx3PBueyaTqbGUZCkUbVyVX9AjTVYuYrXsiM+plWoqZOsVHyxt2bFfkrdJWVKa3KFVeqkrZUtTme19k5t+uPvTyl61dml2ytEVnYlU66MXKmoV2ulymXakqv3FcZtpqylXZMpnzzshWYmsW1pUKUrt3w7vXk7t86rfNsFJcm3KkW6kLXdB3ZJTWbVvUFrRWneKfuUZ1lj53LQtrZzGyZxP2UFklUqXkyd4u+XbqqYt5xjWXyzXZvO2N3NKn9bRYQAAAAAAAAAAAAAAAAAAAAAAAAAwD/hT8GzeKldM5SFAAAAAElFTkSuQmCC" alt="CAST Logo Rodapé" className="h-6 inline-block mr-2" />
           CAST SERVIÇOS DIGITAIS — Empresa verificada na Binance • 100% avaliações positivas
         </div>
         <p>© 2025 CAST Serviços Digitais. Todos os direitos reservados.</p>
