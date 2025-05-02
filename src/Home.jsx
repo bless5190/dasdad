@@ -13,7 +13,7 @@ export default function Home() {
       .then(res => res.json())
       .then(data => {
         const parser = new DOMParser();
-        const xml = parser.parseFromString(data.contents, 'text/xml');
+        const xml = parser.parseFromString(data.contents, 'text/html');
         const items = xml.querySelectorAll('item');
         const newsItems = Array.from(items).slice(0, 5).map(item => ({
           title: item.querySelector('title')?.textContent || '',
@@ -47,9 +47,9 @@ export default function Home() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="bg-gradient-to-b from-gray-950 to-gray-900 text-white min-h-screen font-sans">
       {/* Header */}
       <header className="flex justify-between items-center p-6 border-b border-gray-800 shadow-md">
-        <img src="/logo_verde_transparente.png" alt="CAST Logo" className="h-16 opacity-80" />
+        <img src="/logo_verde_transparente.png" alt="CAST Logo" className="h-20 opacity-80" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
-          <a href="#inicio" className="hover:text-green-400 transition-colors">Início</a>
+          <a href="#inicio" className="hover:text-white transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
           <a href="#servicos" className="hover:text-green-400 transition-colors">Serviços</a>
           <a href="#noticias" className="hover:text-green-400 transition-colors">Notícias</a>
@@ -59,7 +59,7 @@ export default function Home() {
 
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-        <img src="/logo_verde_transparente.png" alt="CAST Logo Emblema" className="mx-auto h-36 mb-6 opacity-80" />
+        <img src="/logo_verde_transparente.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
         <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-green-400 flex justify-center items-center gap-3">
           <FaHandshake className="text-blue-400" /> CAST SERVIÇOS DIGITAIS
         </h1>
@@ -71,31 +71,28 @@ export default function Home() {
         </a>
       </motion.section>
 
-      {/* Sobre */}
-      <motion.section id="sobre" className="py-20 px-6 bg-gray-800" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-  <div className="max-w-4xl mx-auto text-center">
-    <h2 className="text-3xl font-bold text-green-400 mb-6">Sobre a CAST</h2>
-    <p className="text-gray-300 text-lg mb-10">
-      A CAST Serviços Digitais é uma empresa sólida no mercado de criptoativos, atuando na corretora Binance com selo de Comerciante Verificada Profissional. Nosso foco é oferecer negociações rápidas, seguras e com atendimento humano, respeitoso e eficiente.
-    </p>
-    <div className="grid md:grid-cols-2 gap-10">
-      <div className="bg-gray-900 p-6 rounded-xl shadow text-center">
-        <h3 className="text-xl font-bold text-green-300 mb-2 flex justify-center items-center gap-2"><FaUserCheck /> Política KYC</h3>
-        <p className="text-gray-400 text-sm mb-4">
-          Nossa política de "Conheça seu Cliente" garante que todas as operações sejam realizadas de forma segura, exigindo identificação, selfie e comprovantes. Aplicada tanto a pessoas físicas quanto jurídicas.
-        </p>
-        <a href="/KYC_-_CAST_MAIS_ATT_28129_28129_assinado (1) (2).pdf" target="_blank" className="text-green-400 underline">Visualizar política KYC</a>
-      </div>
-      <div className="bg-gray-900 p-6 rounded-xl shadow text-center">
-        <h3 className="text-xl font-bold text-green-300 mb-2 flex justify-center items-center gap-2"><FaShieldAlt /> Política AML</h3>
-        <p className="text-gray-400 text-sm mb-4">
-          Adotamos rigorosas medidas de Prevenção à Lavagem de Dinheiro, incluindo monitoramento contínuo, verificação de origem dos recursos e identificação de PEPs (Pessoas Politicamente Expostas).
-        </p>
-        <a href="/CAST Intemediação AML (1) (2).pdf" target="_blank" className="text-green-400 underline">Visualizar política AML</a>
-      </div>
-    </div>
-  </div>
-</motion.section>
+            {/* Seção de Políticas KYC e AML */}
+      <section id="politicas" className="py-16 px-6 bg-gray-800 text-center">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-white">Nossas Políticas</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-gray-900 p-6 rounded-xl shadow">
+              <h3 className="text-xl font-bold mb-2 flex items-center justify-center gap-2 text-white"><FaUserCheck /> Política KYC</h3>
+              <p className="text-gray-400 text-sm mb-4">
+                A política "Conheça seu Cliente" garante segurança nas operações. Exigimos identificação, selfie e comprovantes de residência e renda.
+              </p>
+              <a href="/KYC.pdf" target="_blank" rel="noopener noreferrer" className="text-green-400 underline">Visualizar política KYC</a>
+            </div>
+            <div className="bg-gray-900 p-6 rounded-xl shadow">
+              <h3 className="text-xl font-bold mb-2 flex items-center justify-center gap-2 text-white"><FaShieldAlt /> Política AML</h3>
+              <p className="text-gray-400 text-sm mb-4">
+                Nossa política de Prevenção à Lavagem de Dinheiro segue padrões internacionais, incluindo monitoramento, análise de perfil e verificação de origem dos fundos.
+              </p>
+              <a href="/AML.pdf" target="_blank" rel="noopener noreferrer" className="text-green-400 underline">Visualizar política AML</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Serviços */}
       <motion.section id="servicos" className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
