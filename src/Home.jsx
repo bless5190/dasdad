@@ -63,9 +63,9 @@ export default function Home() {
   }, []);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.7)' }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.75)' }}>
       {/* Header */}
-      $1flex justify-between items-center py-1 px-6 border-b border-gray-800 shadow-md bg-black bg-opacity-60$2
+      <header className="flex justify-between items-center py-1 px-6 border-b border-gray-800 shadow-md bg-black bg-opacity-60">
           <h1 className="text-xl md:text-2xl font-extrabold text-white bg-black/40 px-4 py-1 rounded-md shadow" style={{ fontFamily: 'Cinzel, serif' }}>
             CAST SERVIÇOS DIGITAIS
           </h1>
@@ -157,7 +157,7 @@ export default function Home() {
         <p className="text-sm text-gray-400">P2P-9fd053vf • 2025-04-15</p>
       </div>
       <div className="bg-gray-800 p-4 rounded-xl shadow">
-        <p className="text-green-300 font-semibold">Obrigado!</p>
+        <p className="text-white font-semibold">Obrigado!</p>
         <p className="text-sm text-gray-400">VitorBarbosaJr • 2025-04-11</p>
       </div>
       <div className="bg-gray-800 p-4 rounded-xl shadow">
@@ -196,12 +196,12 @@ export default function Home() {
       {/* Contato */}
       <motion.section id="contato" className="py-20 px-6" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-green-400 mb-6">Contato</h2>
-          <p className="text-gray-300 mb-6">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
-          <form className="space-y-4">
-            <input type="text" placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
-            <input type="email" placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
-            <textarea placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
+          <h2 className="text-3xl font-bold text-white mb-6 bg-black/60 px-4 py-2 rounded-xl inline-block">Contato</h2>
+          <p className="text-white mb-6 bg-black/60 px-4 py-2 rounded-xl inline-block">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
+          <form action="https://formspree.io/f/meqypzaz" method="POST" className="space-y-4">
+            <input type="text" name="nome" required placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <input type="email" name="email" required placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <textarea name="mensagem" required placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
             <button type="submit" className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded text-white">Enviar</button>
           </form>
         </div>
