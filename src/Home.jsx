@@ -24,7 +24,7 @@ export default function Home() {
       });
     }
   }, []);
-  
+
   useEffect(() => {
     const links = document.querySelectorAll('a[href^="#"]');
     links.forEach(link => {
@@ -42,11 +42,12 @@ export default function Home() {
       });
     };
   }, []);
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="bg-gradient-to-b from-gray-950 to-gray-900 text-white min-h-screen font-sans">
       {/* Header */}
       <header className="flex justify-between items-center p-6 border-b border-gray-800 shadow-md">
-        <img src="/logo_verde_transparente.png" alt="CAST Logo" className="h-10" />
+        <img src="/logo_verde_transparente.png" alt="CAST Logo" className="h-16 opacity-80" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-green-400 transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
@@ -56,17 +57,9 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* Destaque 1 Ano com banner clicável */}
-      <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer">
-        <section className="bg-gradient-to-r from-green-800 to-green-600 text-center py-10 hover:brightness-110 transition-all cursor-pointer">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">🎉 CAST SERVIÇOS DIGITAIS COMPLETA 1 ANO!</h2>
-          <p className="text-white text-sm md:text-base">Clique aqui e aproveite condições especiais de aniversário.</p>
-        </section>
-      </a>
-
-      {/* Hero Section */}
+      {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAMAAAANIilAAAAAUVBMVEX///8AAAB/f3+jo6PZ2dnr6+v7+/vf39+cnJxLS0uHh4e3t7drampKSko6OjoZGRkpKSl1dXV4eHhBQUEeHh6JiYnj4+NwcHAgICBZWVnd7AaVAAAG/UlEQVR4nO2d63KrIAxFnRFFvqr7/39uWy5Qb0Rmx0znXfnmkiZCmQo8yS3H8qMywAAAAAAAAAAAAAAAAAAAAAAAAAAD8H+g1Mr+yB7VHH2csYfzq6DHeTrfR+cfnYHfKbrIv+d54jNV+sbPf2Po9dwcfsPoM/y/UYrkN3ZAX0g9Et7XFoSR9vFe04PbCX+XdjEP29v2kFdpPu+HZjEL3Zvo3mXzYjKq4k3MdOZ3IvbUwOyv7t9wrBtp9ezKxzGvQ2nOV+PrmuHzltwew5bNWLxjoPVvFhn6Yfd+K/Xjr8J68XpNKktMNkcNPYz8p69MoTcztdi2sl6gE1/sixjsO7wZ5kRY+HoZqrr+13nbfjhzht/XUIRfGy+ZaHcRra7rOrq49pssZX9cWbapHJmvRWKjErppEYra9pNKqHbUisveZ11bflOzVKqUb1KmqD7FZErU1oPFqS2qa1KaQfZtXT8m+X82nm+hRqN0NWOZdX0yybfMyFZmoRnS6vVv/bavj83NmCk8krnFLZXYhZ3GHdthEo03qNlh6q9nkmRdrGa+s9ixWptQ+gSpUVazmYyrcRTFHpU2MSmTTu4f3tbaw0iM6NZnbzRL4U8NGStgZdKSmK6vGtaoeFbr2NLWeo9PY3bG9t7vLZKynlnJm8T9SaH4hxHdqGZHkTcRHV8/kHFaZhzfTfHov07p3Wkx3PBueyaTqbGUZCkUbVyVX9AjTVYuYrXsiM+plWoqZOsVHyxt2bFfkrdJWVKa3KFVeqkrZUtTme19k5t+uPvTyl61dml2ytEVnYlU66MXKmoV2ulymXakqv3FcZtpqylXZMpnzzshWYmsW1pUKUrt3w7vXk7t86rfNsFJcm3KkW6kLXdB3ZJTWbVvUFrRWneKfuUZ1lj53LQtrZzGyZxP2UFklUqXkyd4u+XbqqYt5xjWXyzXZvO2N3NKn9bRYQAAAAAAAAAAAAAAAAAAAAAAAAAwD/hT8GzeKldM5SFAAAAAElFTkSuQmCC" alt="CAST Logo Emblema" className="mx-auto h-24 mb-6" />
+        <img src="/logo_verde_transparente.png" alt="CAST Logo Emblema" className="mx-auto h-36 mb-6 opacity-80" />
         <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-green-400 flex justify-center items-center gap-3">
           <FaHandshake className="text-blue-400" /> CAST SERVIÇOS DIGITAIS
         </h1>
