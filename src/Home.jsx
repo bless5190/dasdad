@@ -32,7 +32,7 @@ const P2PAnuncios = ({ nickname }) => {
   rows: 5,
   payTypes: ["PIX"],
   asset: "USDT",
-  tradeType: "SELL",
+  tradeType: "BUY",
   fiat: "BRL",
   publisherType: "merchant",
   merchantCheck: true,
