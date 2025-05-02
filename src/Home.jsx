@@ -63,7 +63,7 @@ export default function Home() {
   }, []);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="bg-gradient-to-b from-gray-950 to-gray-900 text-white min-h-screen font-sans">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="bg-[url('/bg-office.jpg')] bg-cover bg-center text-white min-h-screen font-sans bg-fixed">
       {/* Header */}
       <header className="flex justify-between items-center p-6 border-b border-gray-800 shadow-md">
         <img src="/logo_verde_transparente.png" alt="CAST Logo" className="h-20 opacity-80" />
@@ -227,3 +227,4 @@ export default function Home() {
     </motion.div>
   );
 }
+
