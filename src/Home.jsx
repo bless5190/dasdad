@@ -63,7 +63,7 @@ export default function Home() {
   }, []);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.4)' }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.3)' }}>
       {/* Header */}
       <header className="flex justify-between items-center p-6 border-b border-gray-800 shadow-md">
         <img src="/Emblema.png" alt="CAST Logo" className="h-24 opacity-80" />
@@ -82,7 +82,7 @@ export default function Home() {
         <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white flex justify-center items-center gap-3">
           <FaHandshake className="text-blue-400" /> CAST SERVIÇOS DIGITAIS
         </h1>
-        <p className="text-lg md:text-xl text-gray-100 max-w-2xl mx-auto">
+        <p className="text-lg md:text-xl text-white max-w-2xl mx-auto bg-gray-900 bg-opacity-60 p-4 rounded-xl">
           Compra e venda de criptoativos com segurança, transparência e atendimento humanizado.
         </p>
         <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-8 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl shadow-lg text-lg transition-transform hover:scale-105">
