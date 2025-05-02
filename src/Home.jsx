@@ -188,12 +188,14 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
+{/* Anúncios Binance */}
 <section id="anuncios" className="py-20 px-6 bg-gray-800 text-white">
   <div className="max-w-4xl mx-auto text-center">
     <h2 className="text-3xl font-bold mb-6">Anúncios CAST-INTERMEDIACAO</h2>
     <P2PAnuncios nickname="CAST-INTERMEDIACAO" />
   </div>
 </section>
+
 
       {/* Notícias */}
       <motion.section className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
