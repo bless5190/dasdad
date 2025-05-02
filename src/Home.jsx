@@ -6,7 +6,6 @@ import { useEffect } from "react";
 
 export default function Home() {
   const [news, setNews] = React.useState([]);
-  const [prices, setPrices] = React.useState([]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -14,29 +13,15 @@ export default function Home() {
       .then(res => res.json())
       .then(data => {
         const parser = new DOMParser();
-        const xml = parser.parseFromString(data.contents, 'text/xml');
+        const xml = parser.parseFromString(data.contents, 'text/html');
         const items = xml.querySelectorAll('item');
         const newsItems = Array.from(items).slice(0, 5).map(item => ({
-          title: (item.querySelector('title')?.textContent || '').replace(/<!\[CDATA\[|\]\]>/g, '').replace(/&#?\w+;/g, match => {
-            const el = document.createElement("textarea");
-            el.innerHTML = match;
-            return el.value;
-          }),
+          title: item.querySelector('title')?.textContent.replace(/<!\[CDATA\[|\]\]>/g, '').replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec)) || '',
           link: item.querySelector('link')?.textContent || '#',
           date: item.querySelector('pubDate')?.textContent || ''
         }));
         setNews(newsItems);
       });
-
-      fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether&vs_currencies=brl")
-        .then(res => res.json())
-        .then(data => {
-          setPrices([
-            { name: "Bitcoin", price: data.bitcoin.brl },
-            { name: "Ethereum", price: data.ethereum.brl },
-            { name: "Tether", price: data.tether.brl }
-          ]);
-        });
     }
   }, []);
 
@@ -62,7 +47,7 @@ export default function Home() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="bg-gradient-to-b from-gray-950 to-gray-900 text-white min-h-screen font-sans">
       {/* Header */}
       <header className="flex justify-between items-center p-6 border-b border-gray-800 shadow-md">
-        <img src="/ChatGPT Image 12 de abr. de 2025, 21_35_17.png" alt="CAST Logo" className="h-28 opacity-80" />
+        <img src="/ChatGPT Image 12 de abr. de 2025, 21_35_17.png" alt="CAST Emblema" className="h-28 opacity-80" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-white transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
@@ -74,8 +59,8 @@ export default function Home() {
 
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-        <img src="/ChatGPT Image 12 de abr. de 2025, 21_35_17.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white flex justify-center items-center gap-3">
+        <img src="/logo_verde_transparente.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-green-400 flex justify-center items-center gap-3">
           <FaHandshake className="text-blue-400" /> CAST SERVIÇOS DIGITAIS
         </h1>
         <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
@@ -86,7 +71,7 @@ export default function Home() {
         </a>
       </motion.section>
 
-      {/* Seção de Políticas KYC e AML */}
+            {/* Seção de Políticas KYC e AML */}
       <section id="politicas" className="py-16 px-6 bg-gray-800 text-center">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold mb-8 text-white">Nossas Políticas</h2>
@@ -109,42 +94,99 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Notícias e Cotações */}
-      <section id="noticias" className="py-20 px-6 bg-gray-900 text-white">
+      {/* Serviços */}
+      <motion.section id="servicos" className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-green-400 mb-10 flex items-center justify-center gap-2">
-            <FaStar className="text-yellow-400" /> Últimas Notícias e Cotações
+          <h2 className="text-3xl font-bold text-green-400 mb-8 flex justify-center items-center gap-2">
+            <FaBitcoin className="text-orange-400" /> Serviços
           </h2>
-          <div className="grid md:grid-cols-2 gap-8 text-left">
-            <div className="bg-gray-800 p-6 rounded-xl shadow">
-              <h3 className="text-xl font-bold text-green-300 mb-4">Cotações (BRL)</h3>
-              <ul className="space-y-2 text-gray-200 text-sm">
-                {prices.map((coin, index) => (
-                  <li key={index}>{coin.name}: R$ {coin.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</li>
-                ))}
-              </ul>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-gray-800 p-6 rounded-2xl shadow-lg">
+              <h3 className="text-xl font-bold text-green-300 mb-4">Cotações em tempo real</h3>
+              <iframe src="https://br.widgets.investing.com/live-currency-cross-rates?theme=darkTheme" width="100%" height="300" frameBorder="0" allowTransparency="true"></iframe>
             </div>
-            <div className="bg-gray-800 p-6 rounded-xl shadow">
-              <h3 className="text-xl font-bold text-green-300 mb-4">Notícias</h3>
-              <ul className="space-y-2 text-gray-300 text-sm">
-                {news.map((item, index) => (
-                  <li key={index}>
-                    <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-green-400 hover:underline">
-                      {item.title}
-                    </a>
-                    <div className="text-xs text-gray-400">{new Date(item.date).toLocaleDateString('pt-BR')}</div>
-                  </li>
-                ))}
-              </ul>
+            <div className="bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col justify-center">
+              <p className="text-green-200 text-3xl font-extrabold mb-6 leading-relaxed">
+                Deseja comprar ou vender Criptoativos?
+              </p>
+              <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl shadow w-fit mx-auto text-lg">
+                <FaWhatsapp /> Fale pelo WhatsApp
+              </a>
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Rodapé com logo identificável */}
+      {/* Notícias */}
+      <motion.section className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+  <div className="max-w-4xl mx-auto text-center">
+    <h2 className="text-3xl font-bold text-green-400 mb-10 flex items-center justify-center gap-2">
+      <FaStar className="text-yellow-400" /> Feedbacks dos Clientes
+    </h2>
+    <div className="grid md:grid-cols-2 gap-6 text-left">
+      <div className="bg-gray-800 p-4 rounded-xl shadow">
+        <p className="text-green-300 font-semibold">Transação rápida</p>
+        <p className="text-sm text-gray-400">P2P-368582dz • 2025-04-30</p>
+      </div>
+      <div className="bg-gray-800 p-4 rounded-xl shadow">
+        <p className="text-green-300 font-semibold">Transação rápida, Educado e amigável</p>
+        <p className="text-sm text-gray-400">P2P-9fd053vf • 2025-04-15</p>
+      </div>
+      <div className="bg-gray-800 p-4 rounded-xl shadow">
+        <p className="text-green-300 font-semibold">Obrigado!</p>
+        <p className="text-sm text-gray-400">VitorBarbosaJr • 2025-04-11</p>
+      </div>
+      <div className="bg-gray-800 p-4 rounded-xl shadow">
+        <p className="text-green-300 font-semibold">Excelente atendimento e liberação ágil</p>
+        <p className="text-sm text-gray-400">Usuário Anônimo • 2025-04-13</p>
+      </div>
+    </div>
+  </div>
+</motion.section>
+
+<motion.section id="noticias" className="py-20 px-6 bg-gray-800" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+  <div className="max-w-4xl mx-auto text-center">
+    <h2 className="text-3xl font-bold text-green-400 mb-6">Notícias</h2>
+    <div className="grid md:grid-cols-2 gap-8">
+  <div className="bg-gray-800 p-6 rounded-xl shadow">
+    <h3 className="text-xl font-bold text-green-300 mb-4">Cotações</h3>
+    <iframe src="https://br.widgets.investing.com/live-currency-cross-rates?theme=darkTheme" width="100%" height="300" frameBorder="0" allowTransparency="true"></iframe>
+  </div>
+  <div className="bg-gray-800 p-6 rounded-xl shadow text-left">
+    <h3 className="text-xl font-bold text-green-300 mb-4">Últimas Notícias</h3>
+    <ul className="text-sm space-y-2 text-gray-300">
+  {news.map((item, index) => (
+    <li key={index}>
+      <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-green-400 hover:underline">
+        {item.title}
+      </a>
+      <div className="text-xs text-gray-400">{new Date(item.date).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}</div>
+    </li>
+  ))}
+</ul>
+  </div>
+</div>
+  </div>
+</motion.section>
+
+      {/* Contato */}
+      <motion.section id="contato" className="py-20 px-6" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-green-400 mb-6">Contato</h2>
+          <p className="text-gray-300 mb-6">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
+          <form className="space-y-4">
+            <input type="text" placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <input type="email" placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <textarea placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
+            <button type="submit" className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded text-white">Enviar</button>
+          </form>
+        </div>
+      </motion.section>
+
+      {/* Rodapé com selo */}
       <footer className="bg-gray-950 text-center py-6 border-t border-gray-800 mt-10 text-gray-500 text-sm">
         <div className="mb-2">
-          <img src="/ChatGPT Image 12 de abr. de 2025, 21_35_17.png" alt="CAST Logo Rodapé" className="h-10 inline-block mr-2 opacity-80" />
+         <img src="/ChatGPT Image 12 de abr. de 2025, 21_35_17.png" alt="CAST Logo Rodapé" />
           CAST SERVIÇOS DIGITAIS — Empresa verificada na Binance • 100% avaliações positivas
         </div>
         <p>© 2025 CAST Serviços Digitais. Todos os direitos reservados.</p>
@@ -159,8 +201,5 @@ export default function Home() {
         ↑
       </button>
     </motion.div>
-  );
-}
-
   );
 }
