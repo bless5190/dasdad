@@ -28,14 +28,18 @@ const P2PAnuncios = ({ nickname }) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        page: 1,
-        rows: 5,
-        payTypes: ["PIX"],
-        asset: "USDT",
-        tradeType: "SELL",
-        fiat: "BRL",
-        userProfileNick: nickname
-      })
+  page: 1,
+  rows: 5,
+  payTypes: ["PIX"],
+  asset: "USDT",
+  tradeType: "SELL",
+  fiat: "BRL",
+  publisherType: "merchant",
+  merchantCheck: true,
+  proMerchantAds: true,
+  userProfileNick: nickname
+})
+
     })
     .then(res => res.json())
     .then(data => setAds(data?.data || []));
