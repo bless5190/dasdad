@@ -186,7 +186,7 @@ export default function Home() {
       {/* Rodapé com selo */}
       <footer className="bg-gray-950 text-center py-6 border-t border-gray-800 mt-10 text-gray-500 text-sm">
         <div className="mb-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAMAAAANIilAAAAAUVBMVEX///8AAAB/f3+jo6PZ2dnr6+v7+/vf39+cnJxLS0uHh4e3t7drampKSko6OjoZGRkpKSl1dXV4eHhBQUEeHh6JiYnj4+NwcHAgICBZWVnd7AaVAAAG/UlEQVR4nO2d63KrIAxFnRFFvqr7/39uWy5Qb0Rmx0znXfnmkiZCmQo8yS3H8qMywAAAAAAAAAAAAAAAAAAAAAAAAAAD8H+g1Mr+yB7VHH2csYfzq6DHeTrfR+cfnYHfKbrIv+d54jNV+sbPf2Po9dwcfsPoM/y/UYrkN3ZAX0g9Et7XFoSR9vFe04PbCX+XdjEP29v2kFdpPu+HZjEL3Zvo3mXzYjKq4k3MdOZ3IvbUwOyv7t9wrBtp9ezKxzGvQ2nOV+PrmuHzltwew5bNWLxjoPVvFhn6Yfd+K/Xjr8J68XpNKktMNkcNPYz8p69MoTcztdi2sl6gE1/sixjsO7wZ5kRY+HoZqrr+13nbfjhzht/XUIRfGy+ZaHcRra7rOrq49pssZX9cWbapHJmvRWKjErppEYra9pNKqHbUisveZ11bflOzVKqUb1KmqD7FZErU1oPFqS2qa1KaQfZtXT8m+X82nm+hRqN0NWOZdX0yybfMyFZmoRnS6vVv/bavj83NmCk8krnFLZXYhZ3GHdthEo03qNlh6q9nkmRdrGa+s9ixWptQ+gSpUVazmYyrcRTFHpU2MSmTTu4f3tbaw0iM6NZnbzRL4U8NGStgZdKSmK6vGtaoeFbr2NLWeo9PY3bG9t7vLZKynlnJm8T9SaH4hxHdqGZHkTcRHV8/kHFaZhzfTfHov07p3Wkx3PBueyaTqbGUZCkUbVyVX9AjTVYuYrXsiM+plWoqZOsVHyxt2bFfkrdJWVKa3KFVeqkrZUtTme19k5t+uPvTyl61dml2ytEVnYlU66MXKmoV2ulymXakqv3FcZtpqylXZMpnzzshWYmsW1pUKUrt3w7vXk7t86rfNsFJcm3KkW6kLXdB3ZJTWbVvUFrRWneKfuUZ1lj53LQtrZzGyZxP2UFklUqXkyd4u+XbqqYt5xjWXyzXZvO2N3NKn9bRYQAAAAAAAAAAAAAAAAAAAAAAAAAwD/hT8GzeKldM5SFAAAAAElFTkSuQmCC" alt="CAST Logo Rodapé" className="h-6 inline-block mr-2" />
+<img src="/Emblema.png" alt="CAST Logo Rodapé" className="h-10 inline-block mr-2 opacity-80" />
           CAST SERVIÇOS DIGITAIS — Empresa verificada na Binance • 100% avaliações positivas
         </div>
         <p>© 2025 CAST Serviços Digitais. Todos os direitos reservados.</p>
