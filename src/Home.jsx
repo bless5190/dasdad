@@ -4,11 +4,25 @@ import { FaBitcoin, FaExchangeAlt, FaMoneyBillWave, FaHandshake, FaWhatsapp, FaS
 
 import { useEffect } from "react";
 
+const CryptoPrice = ({ id, label }) => {
+  const [price, setPrice] = React.useState(null);
+
+  useEffect(() => {
+    fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
+      .then(res => res.json())
+      .then(data => setPrice(data[id]?.brl));
+  }, [id]);
+
+  return (
+    <div className="flex items-center justify-between bg-gray-800 rounded p-2 shadow">
+      <span className="text-green-400 font-semibold">{label}</span>
+      <span className="text-white">{price ? `R$ ${price.toFixed(2)}` : '...'}</span>
+    </div>
+  );
+};
+
 export default function Home() {
   const [news, setNews] = React.useState([]);
-  const [form, setForm] = React.useState({ nome: '', email: '', mensagem: '' });
-  const [erro, setErro] = React.useState('');
-  const [sucesso, setSucesso] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -52,7 +66,7 @@ export default function Home() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="bg-gradient-to-b from-gray-950 to-gray-900 text-white min-h-screen font-sans">
       {/* Header */}
       <header className="flex justify-between items-center p-6 border-b border-gray-800 shadow-md">
-        <img src="/Emblema.png" alt="CAST Logo" className="h-24 opacity-90" />
+        <img src="/logo_verde_transparente.png" alt="CAST Logo" className="h-20 opacity-80" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-white transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
@@ -83,7 +97,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gray-900 p-6 rounded-xl shadow">
               <h3 className="text-xl font-bold mb-2 flex items-center justify-center gap-2 text-white"><FaUserCheck /> Política KYC</h3>
-              <p className="text-gray-300 text-sm mb-4">
+              <p className="text-gray-400 text-sm mb-4">
                 A política "Conheça seu Cliente" garante segurança nas operações. Exigimos identificação, selfie e comprovantes de residência e renda.
               </p>
               <a href="/KYC.pdf" target="_blank" rel="noopener noreferrer" className="text-green-400 underline">Visualizar política KYC</a>
@@ -108,7 +122,12 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gray-800 p-6 rounded-2xl shadow-lg">
               <h3 className="text-xl font-bold text-green-300 mb-4">Cotações em tempo real</h3>
-              <iframe src="https://br.widgets.investing.com/live-currency-cross-rates?theme=darkTheme" width="100%" height="300" frameBorder="0" allowTransparency="true"></iframe>
+              <div className="grid grid-cols-2 gap-3 text-sm text-gray-300 text-left">
+  <CryptoPrice id="bitcoin" label="BTC" />
+  <CryptoPrice id="ethereum" label="ETH" />
+  <CryptoPrice id="tether" label="USDT" />
+  <CryptoPrice id="binancecoin" label="BNB" />
+</div>
             </div>
             <div className="bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col justify-center">
               <p className="text-green-200 text-3xl font-extrabold mb-6 leading-relaxed">
@@ -178,33 +197,12 @@ export default function Home() {
       <motion.section id="contato" className="py-20 px-6" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
         <div className="max-w-xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-green-400 mb-6">Contato</h2>
-          <p className="text-gray-200 mb-6">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
-          <form className="space-y-4" onSubmit={(e) => {
-            e.preventDefault();
-            if (!form.nome || !form.email || !form.mensagem) {
-              setErro('Preencha todos os campos.');
-              return;
-            }
-            setSucesso(true);
-            setTimeout(() => setSucesso(false), 5000);
-            window.location.href = `mailto:castsvdigitais@gmail.com?subject=Contato CAST&body=Nome: ${form.nome}%0DEmail: ${form.email}%0DMensagem: ${form.mensagem}`;
-          }}>
-            <input type="text" placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} />
-            <input type="email" placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-            <textarea placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" value={form.mensagem} onChange={(e) => setForm({ ...form, mensagem: e.target.value })}></textarea>
-            {erro && <p className="text-red-400 text-sm">{erro}</p>}
+          <p className="text-gray-300 mb-6">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
+          <form className="space-y-4">
+            <input type="text" placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <input type="email" placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <textarea placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
             <button type="submit" className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded text-white">Enviar</button>
-          {sucesso && (
-  <motion.p 
-    initial={{ opacity: 0, y: -10 }} 
-    animate={{ opacity: 1, y: 0 }} 
-    exit={{ opacity: 0, y: -10 }} 
-    transition={{ duration: 0.3 }}
-    className="text-green-400 text-sm"
-  >
-    E-mail enviado com sucesso!
-  </motion.p>
-)}
           </form>
         </div>
       </motion.section>
