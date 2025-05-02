@@ -1,5 +1,5 @@
 import React from "react";
- } from "framer-motion";
+import { motion } from "framer-motion";
 import { FaBitcoin, FaExchangeAlt, FaMoneyBillWave, FaHandshake, FaWhatsapp, FaShieldAlt, FaUserCheck, FaStar } from "react-icons/fa";
 
 import { useEffect } from "react";
@@ -79,7 +79,7 @@ export default function Home() {
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white px-6 py-2 rounded-xl shadow-lg" style={{ fontFamily: 'Cinzel, serif', textShadow: '1px 1px 2px rgba(0,0,0,0.4)' }}>
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white drop-shadow-lg animate-pulse" style={{ fontFamily: 'Cinzel, serif', textShadow: '0 0 12px #fff' }}>
           CAST SERVIÇOS DIGITAIS
         </h1>
         
@@ -91,8 +91,8 @@ export default function Home() {
         </a>
       </motion.section>
 {/* Seção Sobre */}
-<motion.section id="sobre" className="py-20 px-6 text-center text-white bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/confiança.jpeg')" }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-  <div className="bg-black bg-opacity-60 rounded-xl p-6 max-w-4xl mx-auto">
+<motion.section id="sobre" className="py-20 px-6 bg-gray-800 text-center" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+  <div className="max-w-4xl mx-auto">
     <h2 className="text-3xl font-bold text-white mb-8">Sobre a CAST</h2>
     <p className="text-gray-300 text-lg leading-relaxed space-y-4">
       A CAST Serviços Digitais é uma empresa respeitada e sólida dentro do mercado de compra e venda de criptoativos. Atuando sempre com excelência, respeito e transparência nas suas relações.<br /><br />
@@ -174,7 +174,7 @@ export default function Home() {
         <p className="text-sm text-gray-400">VitorBarbosaJr • 2025-04-11</p>
       </div>
       <div className="bg-gray-800 p-4 rounded-xl shadow">
-        <p className="text-white font-semibold">Excelente atendimento e liberação ágil</p>
+        <p className="text-green-300 font-semibold">Excelente atendimento e liberação ágil</p>
         <p className="text-sm text-gray-400">Usuário Anônimo • 2025-04-13</p>
       </div>
     </div>
@@ -186,7 +186,7 @@ export default function Home() {
     <h2 className="text-3xl font-bold text-green-400 mb-6">Notícias</h2>
     <div className="grid md:grid-cols-2 gap-8">
   <div className="bg-gray-800 p-6 rounded-xl shadow">
-    <h3 className="text-xl font-bold text-white mb-4">Cotação USDT/BRL</h3>
+    <h3 className="text-xl font-bold text-green-300 mb-4">Cotações</h3>
     <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_59e91&symbol=BINANCE:USDTBRL&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=America%2FSao_Paulo&studies_overrides={}&overrides={}&enabled_features=[]&disabled_features=[]&locale=br" width="100%" height="300" frameBorder="0" allowTransparency="true" loading="lazy"></iframe>
   </div>
   <div className="bg-gray-800 p-6 rounded-xl shadow text-left">
