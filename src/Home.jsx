@@ -63,10 +63,10 @@ export default function Home() {
   }, []);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="bg-[url('/bg-office.jpg')] bg-cover bg-center text-white min-h-screen font-sans bg-fixed">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.4)' }}>
       {/* Header */}
       <header className="flex justify-between items-center p-6 border-b border-gray-800 shadow-md">
-        <img src="/logo_verde_transparente.png" alt="CAST Logo" className="h-20 opacity-80" />
+        <img src="/Emblema.png" alt="CAST Logo" className="h-24 opacity-80" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-white transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
@@ -78,11 +78,11 @@ export default function Home() {
 
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-        <img src="/logo_verde_transparente.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-green-400 flex justify-center items-center gap-3">
+        <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white flex justify-center items-center gap-3">
           <FaHandshake className="text-blue-400" /> CAST SERVIÇOS DIGITAIS
         </h1>
-        <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+        <p className="text-lg md:text-xl text-gray-100 max-w-2xl mx-auto">
           Compra e venda de criptoativos com segurança, transparência e atendimento humanizado.
         </p>
         <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-8 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl shadow-lg text-lg transition-transform hover:scale-105">
@@ -114,14 +114,14 @@ export default function Home() {
       </section>
 
       {/* Serviços */}
-      <motion.section id="servicos" className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+      <motion.section id="servicos" className="py-20 px-6 bg-gray-900 bg-opacity-70" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-green-400 mb-8 flex justify-center items-center gap-2">
+          <h2 className="text-3xl font-bold text-white mb-8 flex justify-center items-center gap-2">
             <FaBitcoin className="text-orange-400" /> Serviços
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gray-800 p-6 rounded-2xl shadow-lg">
-              <h3 className="text-xl font-bold text-green-300 mb-4">Cotações em tempo real</h3>
+              <h3 className="text-xl font-bold text-white mb-4">Cotações em tempo real</h3>
               <div className="grid grid-cols-2 gap-3 text-sm text-gray-300 text-left">
   <CryptoPrice id="bitcoin" label="BTC" />
   <CryptoPrice id="ethereum" label="ETH" />
@@ -130,7 +130,7 @@ export default function Home() {
 </div>
             </div>
             <div className="bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col justify-center">
-              <p className="text-green-200 text-3xl font-extrabold mb-6 leading-relaxed">
+              <p className="text-white text-3xl font-extrabold mb-6 leading-relaxed">
                 Deseja comprar ou vender Criptoativos?
               </p>
               <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl shadow w-fit mx-auto text-lg">
@@ -144,16 +144,16 @@ export default function Home() {
       {/* Notícias */}
       <motion.section className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
   <div className="max-w-4xl mx-auto text-center">
-    <h2 className="text-3xl font-bold text-green-400 mb-10 flex items-center justify-center gap-2">
+    <h2 className="text-3xl font-bold text-white mb-10 flex items-center justify-center gap-2">
       <FaStar className="text-yellow-400" /> Feedbacks dos Clientes
     </h2>
     <div className="grid md:grid-cols-2 gap-6 text-left">
       <div className="bg-gray-800 p-4 rounded-xl shadow">
-        <p className="text-green-300 font-semibold">Transação rápida</p>
+        <p className="text-white font-semibold">Transação rápida</p>
         <p className="text-sm text-gray-400">P2P-368582dz • 2025-04-30</p>
       </div>
       <div className="bg-gray-800 p-4 rounded-xl shadow">
-        <p className="text-green-300 font-semibold">Transação rápida, Educado e amigável</p>
+        <p className="text-white font-semibold">Transação rápida, Educado e amigável</p>
         <p className="text-sm text-gray-400">P2P-9fd053vf • 2025-04-15</p>
       </div>
       <div className="bg-gray-800 p-4 rounded-xl shadow">
@@ -168,7 +168,7 @@ export default function Home() {
   </div>
 </motion.section>
 
-<motion.section id="noticias" className="py-20 px-6 bg-gray-800" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+<motion.section id="noticias" className="py-20 px-6 bg-gray-800 bg-opacity-70" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
   <div className="max-w-4xl mx-auto text-center">
     <h2 className="text-3xl font-bold text-green-400 mb-6">Notícias</h2>
     <div className="grid md:grid-cols-2 gap-8">
