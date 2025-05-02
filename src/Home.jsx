@@ -66,7 +66,7 @@ export default function Home() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.75)' }}>
       {/* Header */}
       <header className="flex justify-between items-center py-1 px-6 border-b border-gray-800 shadow-md bg-black bg-opacity-60">
-        <img src="/Emblema.png" alt="CAST Logo" className="h-10 opacity-80" />
+        <img src="/Emblema.png" alt="CAST Logo" className="h-14 opacity-80" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-white transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
@@ -79,7 +79,7 @@ export default function Home() {
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white" style={{ fontFamily: 'Cinzel, serif' }}>
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white drop-shadow-lg animate-pulse" style={{ fontFamily: 'Cinzel, serif', textShadow: '0 0 12px #fff' }}>
           CAST SERVIÇOS DIGITAIS
         </h1>
         
@@ -211,7 +211,7 @@ export default function Home() {
         <div className="max-w-xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-6 bg-black/60 px-4 py-2 rounded-xl inline-block">Contato</h2>
           <p className="text-white mb-6 bg-black/60 px-4 py-2 rounded-xl inline-block">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
-          <form action="https://formspree.io/f/meqypzaz" method="POST" className="space-y-4">
+          <form action="https://formspree.io/f/xjkwyrkb" method="POST" className="space-y-4" onSubmit={(e) => { e.preventDefault(); const form = e.target; fetch(form.action, { method: form.method, body: new FormData(form), headers: { 'Accept': 'application/json' } }).then(response => { if (response.ok) { alert('Mensagem enviada com sucesso!'); form.reset(); } else { alert('Erro ao enviar. Tente novamente.'); } }); }}>
             <input type="text" name="nome" required placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
             <input type="email" name="email" required placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
             <textarea name="mensagem" required placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
@@ -240,4 +240,3 @@ export default function Home() {
     </motion.div>
   );
 }
-
