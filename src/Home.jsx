@@ -91,7 +91,7 @@ export default function Home() {
         </a>
       </motion.section>
 {/* Seção Sobre */}
-<motion.section id="sobre" className="py-20 px-6 text-center text-white bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+<motion.section id="sobre" className="py-20 px-6 text-center text-white bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/confiança.jpeg')" }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
   <div className="bg-black bg-opacity-60 rounded-xl p-6 max-w-4xl mx-auto">
     <h2 className="text-3xl font-bold text-white mb-8">Sobre a CAST</h2>
     <p className="text-gray-300 text-lg leading-relaxed space-y-4">
