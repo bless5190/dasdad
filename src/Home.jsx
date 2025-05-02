@@ -16,7 +16,9 @@ export default function Home() {
         const xml = parser.parseFromString(data.contents, 'text/html');
         const items = xml.querySelectorAll('item');
         const newsItems = Array.from(items).slice(0, 5).map(item => ({
-          title: item.querySelector('title')?.textContent || '',
+          title: item.querySelector('title')?.textContent
+  .replace(/<!\[CDATA\[|\]\]>/g, '')
+  .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec)) || '',
           link: item.querySelector('link')?.textContent || '#',
           date: item.querySelector('pubDate')?.textContent || ''
         }));
