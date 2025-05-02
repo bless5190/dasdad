@@ -79,7 +79,7 @@ export default function Home() {
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white" style={{ fontFamily: 'Cinzel, serif' }}>
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white drop-shadow-xl" style={{ fontFamily: 'Cinzel, serif' }}>
           CAST SERVIÇOS DIGITAIS
         </h1>
         
@@ -90,19 +90,6 @@ export default function Home() {
           <FaWhatsapp /> Fale pelo WhatsApp
         </a>
       </motion.section>
-
-      {/* Seção Sobre */}
-<motion.section id="sobre" className="py-20 px-6 bg-gray-800 text-center" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-  <div className="max-w-4xl mx-auto">
-    <h2 className="text-3xl font-bold text-white mb-8">Sobre a CAST</h2>
-    <p className="text-gray-300 text-lg leading-relaxed space-y-4">
-      A CAST Serviços Digitais é uma empresa respeitada e sólida dentro do mercado de compra e venda de criptoativos. Atuando sempre com excelência, respeito e transparência nas suas relações.<br /><br />
-      Buscando sempre as melhores inovações e possuindo tecnologia de ponta para prover relações com segurança e tranquilidade dentro do ambiente crypto.<br /><br />
-      O objetivo da CAST Serviços Digitais é proporcionar a melhor experiência para os nossos clientes, pois sabemos dos desafios e dificuldades encontrados para a realização de transações seguras dentro desse mercado que cresce tanto.<br /><br />
-      Esperamos poder atender e corresponder às expectativas impostas, sempre mirando na excelência e transparência.
-    </p>
-  </div>
-</motion.section>
 
             {/* Seção de Políticas KYC e AML */}
       <section id="politicas" className="py-16 px-6 bg-gray-800 text-center">
@@ -241,4 +228,3 @@ export default function Home() {
     </motion.div>
   );
 }
-
