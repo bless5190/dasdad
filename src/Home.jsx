@@ -79,7 +79,7 @@ export default function Home() {
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white bg-black/60 px-6 py-2 rounded-xl shadow-lg" style={{ fontFamily: 'Cinzel, serif' }}>
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white px-6 py-2 rounded-xl shadow-lg" style={{ fontFamily: 'Cinzel, serif', textShadow: '2px 2px 0 #111, 4px 4px 8px rgba(0,0,0,0.5)' }}>
           CAST SERVIÇOS DIGITAIS
         </h1>
         
