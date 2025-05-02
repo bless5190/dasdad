@@ -63,10 +63,12 @@ export default function Home() {
   }, []);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.85)' }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.7)' }}>
       {/* Header */}
-      <header className="flex justify-between items-center py-1 px-6 border-b border-gray-800 shadow-md bg-black bg-opacity-60">
-        <img src="/Emblema.png" alt="CAST Logo" className="h-24 opacity-80" />
+      $1flex justify-between items-center py-1 px-6 border-b border-gray-800 shadow-md bg-black bg-opacity-60$2
+          <h1 className="text-xl md:text-2xl font-extrabold text-white bg-black/40 px-4 py-1 rounded-md shadow" style={{ fontFamily: 'Cinzel, serif' }}>
+            CAST SERVIÇOS DIGITAIS
+          </h1>
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-white transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
@@ -79,9 +81,7 @@ export default function Home() {
       {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white bg-black/60 px-6 py-2 rounded-xl shadow-lg inline-block" style={{ fontFamily: 'Cinzel, serif' }}>
-          CAST SERVIÇOS DIGITAIS
-        </h1>
+        
         <p className="text-lg md:text-xl text-white max-w-2xl mx-auto bg-black/60 p-4 rounded-xl shadow-lg">
           Compra e venda de criptoativos com segurança, transparência e atendimento humanizado.
         </p>
@@ -174,7 +174,7 @@ export default function Home() {
     <div className="grid md:grid-cols-2 gap-8">
   <div className="bg-gray-800 p-6 rounded-xl shadow">
     <h3 className="text-xl font-bold text-green-300 mb-4">Cotações</h3>
-    <iframe src="https://br.widgets.investing.com/live-currency-cross-rates?theme=darkTheme" width="100%" height="300" frameBorder="0" allowTransparency="true"></iframe>
+    <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_59e91&symbol=BINANCE:USDTBRL&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=America%2FSao_Paulo&studies_overrides={}&overrides={}&enabled_features=[]&disabled_features=[]&locale=br" width="100%" height="300" frameBorder="0" allowTransparency="true" loading="lazy"></iframe>
   </div>
   <div className="bg-gray-800 p-6 rounded-xl shadow text-left">
     <h3 className="text-xl font-bold text-green-300 mb-4">Últimas Notícias</h3>
