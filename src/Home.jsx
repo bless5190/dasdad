@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+ } from "framer-motion";
 import { FaBitcoin, FaExchangeAlt, FaMoneyBillWave, FaHandshake, FaWhatsapp, FaShieldAlt, FaUserCheck, FaStar } from "react-icons/fa";
 
 import { useEffect } from "react";
