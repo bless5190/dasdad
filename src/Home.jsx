@@ -6,6 +6,9 @@ import { useEffect } from "react";
 
 export default function Home() {
   const [news, setNews] = React.useState([]);
+  const [form, setForm] = React.useState({ nome: '', email: '', mensagem: '' });
+  const [erro, setErro] = React.useState('');
+  const [sucesso, setSucesso] = React.useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -16,9 +19,7 @@ export default function Home() {
         const xml = parser.parseFromString(data.contents, 'text/html');
         const items = xml.querySelectorAll('item');
         const newsItems = Array.from(items).slice(0, 5).map(item => ({
-          title: item.querySelector('title')?.textContent
-  .replace(/<!\[CDATA\[|\]\]>/g, '')
-  .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec)) || '',
+          title: item.querySelector('title')?.textContent || '',
           link: item.querySelector('link')?.textContent || '#',
           date: item.querySelector('pubDate')?.textContent || ''
         }));
@@ -49,7 +50,7 @@ export default function Home() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="bg-gradient-to-b from-gray-950 to-gray-900 text-white min-h-screen font-sans">
       {/* Header */}
       <header className="flex justify-between items-center p-6 border-b border-gray-800 shadow-md">
-        <img src="/logo_verde_transparente.png" alt="CAST Logo" className="h-20 opacity-80" />
+        <img src="/Emblema.png" alt="CAST Logo" className="h-24 opacity-90" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-white transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
@@ -80,7 +81,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gray-900 p-6 rounded-xl shadow">
               <h3 className="text-xl font-bold mb-2 flex items-center justify-center gap-2 text-white"><FaUserCheck /> Política KYC</h3>
-              <p className="text-gray-400 text-sm mb-4">
+              <p className="text-gray-300 text-sm mb-4">
                 A política "Conheça seu Cliente" garante segurança nas operações. Exigimos identificação, selfie e comprovantes de residência e renda.
               </p>
               <a href="/KYC.pdf" target="_blank" rel="noopener noreferrer" className="text-green-400 underline">Visualizar política KYC</a>
@@ -175,12 +176,33 @@ export default function Home() {
       <motion.section id="contato" className="py-20 px-6" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
         <div className="max-w-xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-green-400 mb-6">Contato</h2>
-          <p className="text-gray-300 mb-6">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
-          <form className="space-y-4">
-            <input type="text" placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
-            <input type="email" placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
-            <textarea placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
+          <p className="text-gray-200 mb-6">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
+          <form className="space-y-4" onSubmit={(e) => {
+            e.preventDefault();
+            if (!form.nome || !form.email || !form.mensagem) {
+              setErro('Preencha todos os campos.');
+              return;
+            }
+            setSucesso(true);
+            setTimeout(() => setSucesso(false), 5000);
+            window.location.href = `mailto:castsvdigitais@gmail.com?subject=Contato CAST&body=Nome: ${form.nome}%0DEmail: ${form.email}%0DMensagem: ${form.mensagem}`;
+          }}>
+            <input type="text" placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} />
+            <input type="email" placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+            <textarea placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" value={form.mensagem} onChange={(e) => setForm({ ...form, mensagem: e.target.value })}></textarea>
+            {erro && <p className="text-red-400 text-sm">{erro}</p>}
             <button type="submit" className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded text-white">Enviar</button>
+          {sucesso && (
+  <motion.p 
+    initial={{ opacity: 0, y: -10 }} 
+    animate={{ opacity: 1, y: 0 }} 
+    exit={{ opacity: 0, y: -10 }} 
+    transition={{ duration: 0.3 }}
+    className="text-green-400 text-sm"
+  >
+    E-mail enviado com sucesso!
+  </motion.p>
+)}
           </form>
         </div>
       </motion.section>
@@ -205,4 +227,3 @@ export default function Home() {
     </motion.div>
   );
 }
-
