@@ -42,7 +42,11 @@ const P2PAnuncios = ({ nickname }) => {
 
     })
     .then(res => res.json())
-    .then(data => setAds(data?.data || []));
+.then(data => {
+  console.log("Anúncios recebidos da Binance:", data); // 👈 Isto irá mostrar no console
+  setAds(data?.data || []);
+});
+
   }, [nickname]);
 
   return (
