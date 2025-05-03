@@ -20,6 +20,49 @@ const CryptoPrice = ({ id, label }) => {
     </div>
   );
 };
+const P2PAnuncios = ({ nickname }) => {
+  const [ads, setAds] = React.useState([]);
+
+  useEffect(() => {
+    fetch('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+  page: 1,
+  rows: 5,
+  payTypes: ["PIX"],
+  asset: "USDT",
+  tradeType: "SELL",
+  fiat: "BRL",
+  publisherType: "merchant",
+  merchantCheck: true,
+  proMerchantAds: true,
+  userProfileNick: nickname
+})
+
+    })
+    .then(res => res.json())
+.then(data => {
+  console.log("Anúncios recebidos da Binance:", data); // 👈 Isto irá mostrar no console
+  setAds(data?.data || []);
+});
+
+  }, [nickname]);
+
+  return (
+    <div className="space-y-4">
+      {ads.length === 0 ? <p>Carregando anúncios...</p> : (
+        ads.map((item, index) => (
+          <div key={index} className="bg-gray-900 p-4 rounded shadow text-left">
+            <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
+            <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
+            <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
+          </div>
+        ))
+      )}
+    </div>
+  );
+};
 
 export default function Home() {
   const [news, setNews] = React.useState([]);
@@ -91,7 +134,7 @@ export default function Home() {
         </a>
       </motion.section>
 {/* Seção Sobre */}
-<motion.section id="sobre" className="py-20 px-6 text-center text-white bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/confiança.jpeg')" }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+<motion.section id="sobre" className="py-20 px-6 text-center text-white bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
   <div className="bg-black bg-opacity-60 rounded-xl p-6 max-w-4xl mx-auto">
     <h2 className="text-3xl font-bold text-white mb-8">Sobre a CAST</h2>
     <p className="text-gray-300 text-lg leading-relaxed space-y-4">
@@ -153,6 +196,14 @@ export default function Home() {
           </div>
         </div>
       </motion.section>
+{/* Anúncios Binance */}
+<section id="anuncios" className="py-20 px-6 bg-gray-800 text-white">
+  <div className="max-w-4xl mx-auto text-center">
+    <h2 className="text-3xl font-bold mb-6">Anúncios CAST-INTERMEDIACAO</h2>
+    <P2PAnuncios nickname="CAST-INTERMEDIACAO" />
+  </div>
+</section>
+
 
       {/* Notícias */}
       <motion.section className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
