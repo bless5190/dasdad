@@ -4,6 +4,23 @@ import { FaBitcoin, FaExchangeAlt, FaMoneyBillWave, FaHandshake, FaWhatsapp, FaS
 
 import { useEffect } from "react";
 
+const CryptoPrice = ({ id, label }) => {
+  const [price, setPrice] = React.useState(null);
+
+  useEffect(() => {
+    fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
+      .then(res => res.json())
+      .then(data => setPrice(data[id]?.brl));
+  }, [id]);
+
+  return (
+    <div className="flex items-center justify-between bg-gray-800 rounded p-2 shadow">
+      <span className="text-green-400 font-semibold">{label}</span>
+      <span className="text-white">{price ? `R$ ${price.toFixed(2)}` : '...'}</span>
+    </div>
+  );
+};
+
 export default function Home() {
   const [news, setNews] = React.useState([]);
 
@@ -13,10 +30,12 @@ export default function Home() {
       .then(res => res.json())
       .then(data => {
         const parser = new DOMParser();
-        const xml = parser.parseFromString(data.contents, 'text/xml');
+        const xml = parser.parseFromString(data.contents, 'text/html');
         const items = xml.querySelectorAll('item');
         const newsItems = Array.from(items).slice(0, 5).map(item => ({
-          title: item.querySelector('title')?.textContent || '',
+          title: item.querySelector('title')?.textContent
+  .replace(/<!\[CDATA\[|\]\]>/g, '')
+  .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec)) || '',
           link: item.querySelector('link')?.textContent || '#',
           date: item.querySelector('pubDate')?.textContent || ''
         }));
@@ -24,7 +43,7 @@ export default function Home() {
       });
     }
   }, []);
-  
+
   useEffect(() => {
     const links = document.querySelectorAll('a[href^="#"]');
     links.forEach(link => {
@@ -42,13 +61,14 @@ export default function Home() {
       });
     };
   }, []);
+
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="bg-gradient-to-b from-gray-950 to-gray-900 text-white min-h-screen font-sans">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative text-white min-h-screen font-sans" style={{ backgroundImage: "url('/bg-office.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', filter: 'brightness(0.75)' }}>
       {/* Header */}
-      <header className="flex justify-between items-center p-6 border-b border-gray-800 shadow-md">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAMAAAANIilAAAAAUVBMVEX///8AAAB/f3+jo6PZ2dnr6+v7+/vf39+cnJxLS0uHh4e3t7drampKSko6OjoZGRkpKSl1dXV4eHhBQUEeHh6JiYnj4+NwcHAgICBZWVnd7AaVAAAG/UlEQVR4nO2d63KrIAxFnRFFvqr7/39uWy5Qb0Rmx0znXfnmkiZCmQo8yS3H8qMywAAAAAAAAAAAAAAAAAAAAAAAAAAD8H+g1Mr+yB7VHH2csYfzq6DHeTrfR+cfnYHfKbrIv+d54jNV+sbPf2Po9dwcfsPoM/y/UYrkN3ZAX0g9Et7XFoSR9vFe04PbCX+XdjEP29v2kFdpPu+HZjEL3Zvo3mXzYjKq4k3MdOZ3IvbUwOyv7t9wrBtp9ezKxzGvQ2nOV+PrmuHzltwew5bNWLxjoPVvFhn6Yfd+K/Xjr8J68XpNKktMNkcNPYz8p69MoTcztdi2sl6gE1/sixjsO7wZ5kRY+HoZqrr+13nbfjhzht/XUIRfGy+ZaHcRra7rOrq49pssZX9cWbapHJmvRWKjErppEYra9pNKqHbUisveZ11bflOzVKqUb1KmqD7FZErU1oPFqS2qa1KaQfZtXT8m+X82nm+hRqN0NWOZdX0yybfMyFZmoRnS6vVv/bavj83NmCk8krnFLZXYhZ3GHdthEo03qNlh6q9nkmRdrGa+s9ixWptQ+gSpUVazmYyrcRTFHpU2MSmTTu4f3tbaw0iM6NZnbzRL4U8NGStgZdKSmK6vGtaoeFbr2NLWeo9PY3bG9t7vLZKynlnJm8T9SaH4hxHdqGZHkTcRHV8/kHFaZhzfTfHov07p3Wkx3PBueyaTqbGUZCkUbVyVX9AjTVYuYrXsiM+plWoqZOsVHyxt2bFfkrdJWVKa3KFVeqkrZUtTme19k5t+uPvTyl61dml2ytEVnYlU66MXKmoV2ulymXakqv3FcZtpqylXZMpnzzshWYmsW1pUKUrt3w7vXk7t86rfNsFJcm3KkW6kLXdB3ZJTWbVvUFrRWneKfuUZ1lj53LQtrZzGyZxP2UFklUqXkyd4u+XbqqYt5xjWXyzXZvO2N3NKn9bRYQAAAAAAAAAAAAAAAAAAAAAAAAAwD/hT8GzeKldM5SFAAAAAElFTkSuQmCC" alt="CAST Logo" className="h-10" />
+      <header className="flex justify-between items-center py-1 px-6 border-b border-gray-800 shadow-md bg-black bg-opacity-60">
+        <img src="/Emblema.png" alt="CAST Logo" className="h-14 opacity-80" />
         <nav className="space-x-6 text-sm md:text-base font-medium">
-          <a href="#inicio" className="hover:text-green-400 transition-colors">Início</a>
+          <a href="#inicio" className="hover:text-white transition-colors">Início</a>
           <a href="#sobre" className="hover:text-green-400 transition-colors">Sobre</a>
           <a href="#servicos" className="hover:text-green-400 transition-colors">Serviços</a>
           <a href="#noticias" className="hover:text-green-400 transition-colors">Notícias</a>
@@ -56,67 +76,74 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* Destaque 1 Ano com banner clicável */}
-      <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer">
-        <section className="bg-gradient-to-r from-green-800 to-green-600 text-center py-10 hover:brightness-110 transition-all cursor-pointer">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">🎉 CAST SERVIÇOS DIGITAIS COMPLETA 1 ANO!</h2>
-          <p className="text-white text-sm md:text-base">Clique aqui e aproveite condições especiais de aniversário.</p>
-        </section>
-      </a>
-
-      {/* Hero Section */}
+      {/* Emblema central atualizado */}
       <motion.section id="inicio" className="text-center py-20 px-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAMAAAANIilAAAAAUVBMVEX///8AAAB/f3+jo6PZ2dnr6+v7+/vf39+cnJxLS0uHh4e3t7drampKSko6OjoZGRkpKSl1dXV4eHhBQUEeHh6JiYnj4+NwcHAgICBZWVnd7AaVAAAG/UlEQVR4nO2d63KrIAxFnRFFvqr7/39uWy5Qb0Rmx0znXfnmkiZCmQo8yS3H8qMywAAAAAAAAAAAAAAAAAAAAAAAAAAD8H+g1Mr+yB7VHH2csYfzq6DHeTrfR+cfnYHfKbrIv+d54jNV+sbPf2Po9dwcfsPoM/y/UYrkN3ZAX0g9Et7XFoSR9vFe04PbCX+XdjEP29v2kFdpPu+HZjEL3Zvo3mXzYjKq4k3MdOZ3IvbUwOyv7t9wrBtp9ezKxzGvQ2nOV+PrmuHzltwew5bNWLxjoPVvFhn6Yfd+K/Xjr8J68XpNKktMNkcNPYz8p69MoTcztdi2sl6gE1/sixjsO7wZ5kRY+HoZqrr+13nbfjhzht/XUIRfGy+ZaHcRra7rOrq49pssZX9cWbapHJmvRWKjErppEYra9pNKqHbUisveZ11bflOzVKqUb1KmqD7FZErU1oPFqS2qa1KaQfZtXT8m+X82nm+hRqN0NWOZdX0yybfMyFZmoRnS6vVv/bavj83NmCk8krnFLZXYhZ3GHdthEo03qNlh6q9nkmRdrGa+s9ixWptQ+gSpUVazmYyrcRTFHpU2MSmTTu4f3tbaw0iM6NZnbzRL4U8NGStgZdKSmK6vGtaoeFbr2NLWeo9PY3bG9t7vLZKynlnJm8T9SaH4hxHdqGZHkTcRHV8/kHFaZhzfTfHov07p3Wkx3PBueyaTqbGUZCkUbVyVX9AjTVYuYrXsiM+plWoqZOsVHyxt2bFfkrdJWVKa3KFVeqkrZUtTme19k5t+uPvTyl61dml2ytEVnYlU66MXKmoV2ulymXakqv3FcZtpqylXZMpnzzshWYmsW1pUKUrt3w7vXk7t86rfNsFJcm3KkW6kLXdB3ZJTWbVvUFrRWneKfuUZ1lj53LQtrZzGyZxP2UFklUqXkyd4u+XbqqYt5xjWXyzXZvO2N3NKn9bRYQAAAAAAAAAAAAAAAAAAAAAAAAAwD/hT8GzeKldM5SFAAAAAElFTkSuQmCC" alt="CAST Logo Emblema" className="mx-auto h-24 mb-6" />
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-green-400 flex justify-center items-center gap-3">
-          <FaHandshake className="text-blue-400" /> CAST SERVIÇOS DIGITAIS
+        <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white px-6 py-2 rounded-xl shadow-lg" style={{ fontFamily: 'Cinzel, serif', textShadow: '1px 1px 2px rgba(0,0,0,0.4)' }}>
+          CAST SERVIÇOS DIGITAIS
         </h1>
-        <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
+        
+        <p className="text-lg md:text-xl text-white max-w-2xl mx-auto bg-black/60 p-4 rounded-xl shadow-lg">
           Compra e venda de criptoativos com segurança, transparência e atendimento humanizado.
         </p>
         <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-8 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl shadow-lg text-lg transition-transform hover:scale-105">
           <FaWhatsapp /> Fale pelo WhatsApp
         </a>
       </motion.section>
-
-      {/* Sobre */}
-      <motion.section id="sobre" className="py-20 px-6 bg-gray-800" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-  <div className="max-w-4xl mx-auto text-center">
-    <h2 className="text-3xl font-bold text-green-400 mb-6">Sobre a CAST</h2>
-    <p className="text-gray-300 text-lg mb-10">
-      A CAST Serviços Digitais é uma empresa sólida no mercado de criptoativos, atuando na corretora Binance com selo de Comerciante Verificada Profissional. Nosso foco é oferecer negociações rápidas, seguras e com atendimento humano, respeitoso e eficiente.
+{/* Seção Sobre */}
+<motion.section id="sobre" className="py-20 px-6 text-center text-white bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/confiança.jpeg')" }} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+  <div className="bg-black bg-opacity-60 rounded-xl p-6 max-w-4xl mx-auto">
+    <h2 className="text-3xl font-bold text-white mb-8">Sobre a CAST</h2>
+    <p className="text-gray-300 text-lg leading-relaxed space-y-4">
+      A CAST Serviços Digitais é uma empresa respeitada e sólida dentro do mercado de compra e venda de criptoativos. Atuando sempre com excelência, respeito e transparência nas suas relações.<br /><br />
+      Buscando sempre as melhores inovações e possuindo tecnologia de ponta para prover relações com segurança e tranquilidade dentro do ambiente crypto.<br /><br />
+      O objetivo da CAST Serviços Digitais é proporcionar a melhor experiência para os nossos clientes, pois sabemos dos desafios e dificuldades encontrados para a realização de transações seguras dentro desse mercado que cresce tanto.<br /><br />
+      Esperamos poder atender e corresponder às expectativas impostas, sempre mirando na excelência e transparência.
     </p>
-    <div className="grid md:grid-cols-2 gap-10">
-      <div className="bg-gray-900 p-6 rounded-xl shadow text-center">
-        <h3 className="text-xl font-bold text-green-300 mb-2 flex justify-center items-center gap-2"><FaUserCheck /> Política KYC</h3>
-        <p className="text-gray-400 text-sm mb-4">
-          Nossa política de "Conheça seu Cliente" garante que todas as operações sejam realizadas de forma segura, exigindo identificação, selfie e comprovantes. Aplicada tanto a pessoas físicas quanto jurídicas.
-        </p>
-        <a href="/KYC_-_CAST_MAIS_ATT_28129_28129_assinado (1) (2).pdf" target="_blank" className="text-green-400 underline">Visualizar política KYC</a>
-      </div>
-      <div className="bg-gray-900 p-6 rounded-xl shadow text-center">
-        <h3 className="text-xl font-bold text-green-300 mb-2 flex justify-center items-center gap-2"><FaShieldAlt /> Política AML</h3>
-        <p className="text-gray-400 text-sm mb-4">
-          Adotamos rigorosas medidas de Prevenção à Lavagem de Dinheiro, incluindo monitoramento contínuo, verificação de origem dos recursos e identificação de PEPs (Pessoas Politicamente Expostas).
-        </p>
-        <a href="/CAST Intemediação AML (1) (2).pdf" target="_blank" className="text-green-400 underline">Visualizar política AML</a>
-      </div>
-    </div>
   </div>
 </motion.section>
 
+            {/* Seção de Políticas KYC e AML */}
+      <section id="politicas" className="py-16 px-6 bg-gray-800 text-center">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold mb-8 text-white">Nossas Políticas</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-gray-900 p-6 rounded-xl shadow">
+              <h3 className="text-xl font-bold mb-2 flex items-center justify-center gap-2 text-white"><FaUserCheck /> Política KYC</h3>
+              <p className="text-gray-400 text-sm mb-4">
+                A política "Conheça seu Cliente" garante segurança nas operações. Exigimos identificação, selfie e comprovantes de residência e renda.
+              </p>
+              <a href="/KYC.pdf" target="_blank" rel="noopener noreferrer" className="text-green-400 underline">Visualizar política KYC</a>
+            </div>
+            <div className="bg-gray-900 p-6 rounded-xl shadow">
+              <h3 className="text-xl font-bold mb-2 flex items-center justify-center gap-2 text-white"><FaShieldAlt /> Política AML</h3>
+              <p className="text-gray-400 text-sm mb-4">
+                Nossa política de Prevenção à Lavagem de Dinheiro segue padrões internacionais, incluindo monitoramento, análise de perfil e verificação de origem dos fundos.
+              </p>
+              <a href="/AML.pdf" target="_blank" rel="noopener noreferrer" className="text-green-400 underline">Visualizar política AML</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Serviços */}
-      <motion.section id="servicos" className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+      <motion.section id="servicos" className="py-20 px-6 bg-gray-900 bg-opacity-70" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-green-400 mb-8 flex justify-center items-center gap-2">
+          <h2 className="text-3xl font-bold text-white mb-8 flex justify-center items-center gap-2">
             <FaBitcoin className="text-orange-400" /> Serviços
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gray-800 p-6 rounded-2xl shadow-lg">
-              <h3 className="text-xl font-bold text-green-300 mb-4">Cotações em tempo real</h3>
-              <iframe src="https://br.widgets.investing.com/live-currency-cross-rates?theme=darkTheme" width="100%" height="300" frameBorder="0" allowTransparency="true"></iframe>
+              <h3 className="text-xl font-bold text-white mb-4">Cotações em tempo real</h3>
+              <div className="grid grid-cols-2 gap-3 text-sm text-gray-300 text-left">
+  <CryptoPrice id="bitcoin" label="BTC" />
+  <CryptoPrice id="ethereum" label="ETH" />
+  <CryptoPrice id="tether" label="USDT" />
+  <CryptoPrice id="binancecoin" label="BNB" />
+</div>
             </div>
             <div className="bg-gray-800 p-6 rounded-2xl shadow-lg flex flex-col justify-center">
-              <p className="text-green-200 text-3xl font-extrabold mb-6 leading-relaxed">
+              <p className="text-white text-3xl font-extrabold mb-6 leading-relaxed">
                 Deseja comprar ou vender Criptoativos?
               </p>
               <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-2xl shadow w-fit mx-auto text-lg">
@@ -130,37 +157,37 @@ export default function Home() {
       {/* Notícias */}
       <motion.section className="py-20 px-6 bg-gray-900" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
   <div className="max-w-4xl mx-auto text-center">
-    <h2 className="text-3xl font-bold text-green-400 mb-10 flex items-center justify-center gap-2">
+    <h2 className="text-3xl font-bold text-white mb-10 flex items-center justify-center gap-2">
       <FaStar className="text-yellow-400" /> Feedbacks dos Clientes
     </h2>
     <div className="grid md:grid-cols-2 gap-6 text-left">
       <div className="bg-gray-800 p-4 rounded-xl shadow">
-        <p className="text-green-300 font-semibold">Transação rápida</p>
+        <p className="text-white font-semibold">Transação rápida</p>
         <p className="text-sm text-gray-400">P2P-368582dz • 2025-04-30</p>
       </div>
       <div className="bg-gray-800 p-4 rounded-xl shadow">
-        <p className="text-green-300 font-semibold">Transação rápida, Educado e amigável</p>
+        <p className="text-white font-semibold">Transação rápida, Educado e amigável</p>
         <p className="text-sm text-gray-400">P2P-9fd053vf • 2025-04-15</p>
       </div>
       <div className="bg-gray-800 p-4 rounded-xl shadow">
-        <p className="text-green-300 font-semibold">Obrigado!</p>
+        <p className="text-white font-semibold">Obrigado!</p>
         <p className="text-sm text-gray-400">VitorBarbosaJr • 2025-04-11</p>
       </div>
       <div className="bg-gray-800 p-4 rounded-xl shadow">
-        <p className="text-green-300 font-semibold">Excelente atendimento e liberação ágil</p>
+        <p className="text-white font-semibold">Excelente atendimento e liberação ágil</p>
         <p className="text-sm text-gray-400">Usuário Anônimo • 2025-04-13</p>
       </div>
     </div>
   </div>
 </motion.section>
 
-<motion.section id="noticias" className="py-20 px-6 bg-gray-800" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+<motion.section id="noticias" className="py-20 px-6 bg-gray-800 bg-opacity-70" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
   <div className="max-w-4xl mx-auto text-center">
     <h2 className="text-3xl font-bold text-green-400 mb-6">Notícias</h2>
     <div className="grid md:grid-cols-2 gap-8">
   <div className="bg-gray-800 p-6 rounded-xl shadow">
-    <h3 className="text-xl font-bold text-green-300 mb-4">Cotações</h3>
-    <iframe src="https://br.widgets.investing.com/live-currency-cross-rates?theme=darkTheme" width="100%" height="300" frameBorder="0" allowTransparency="true"></iframe>
+    <h3 className="text-xl font-bold text-white mb-4">Cotação USDT/BRL</h3>
+    <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_59e91&symbol=BINANCE:USDTBRL&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=America%2FSao_Paulo&studies_overrides={}&overrides={}&enabled_features=[]&disabled_features=[]&locale=br" width="100%" height="300" frameBorder="0" allowTransparency="true" loading="lazy"></iframe>
   </div>
   <div className="bg-gray-800 p-6 rounded-xl shadow text-left">
     <h3 className="text-xl font-bold text-green-300 mb-4">Últimas Notícias</h3>
@@ -182,12 +209,12 @@ export default function Home() {
       {/* Contato */}
       <motion.section id="contato" className="py-20 px-6" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-green-400 mb-6">Contato</h2>
-          <p className="text-gray-300 mb-6">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
-          <form className="space-y-4">
-            <input type="text" placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
-            <input type="email" placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
-            <textarea placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
+          <h2 className="text-3xl font-bold text-white mb-6 bg-black/60 px-4 py-2 rounded-xl inline-block">Contato</h2>
+          <p className="text-white mb-6 bg-black/60 px-4 py-2 rounded-xl inline-block">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
+          <form action="https://formspree.io/f/xjkwyrkb" method="POST" className="space-y-4" onSubmit={(e) => { e.preventDefault(); const form = e.target; fetch(form.action, { method: form.method, body: new FormData(form), headers: { 'Accept': 'application/json' } }).then(response => { if (response.ok) { alert('Mensagem enviada com sucesso!'); form.reset(); } else { alert('Erro ao enviar. Tente novamente.'); } }); }}>
+            <input type="text" name="nome" required placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <input type="email" name="email" required placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <textarea name="mensagem" required placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
             <button type="submit" className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded text-white">Enviar</button>
           </form>
         </div>
@@ -196,7 +223,7 @@ export default function Home() {
       {/* Rodapé com selo */}
       <footer className="bg-gray-950 text-center py-6 border-t border-gray-800 mt-10 text-gray-500 text-sm">
         <div className="mb-2">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAADwCAMAAAANIilAAAAAUVBMVEX///8AAAB/f3+jo6PZ2dnr6+v7+/vf39+cnJxLS0uHh4e3t7drampKSko6OjoZGRkpKSl1dXV4eHhBQUEeHh6JiYnj4+NwcHAgICBZWVnd7AaVAAAG/UlEQVR4nO2d63KrIAxFnRFFvqr7/39uWy5Qb0Rmx0znXfnmkiZCmQo8yS3H8qMywAAAAAAAAAAAAAAAAAAAAAAAAAAD8H+g1Mr+yB7VHH2csYfzq6DHeTrfR+cfnYHfKbrIv+d54jNV+sbPf2Po9dwcfsPoM/y/UYrkN3ZAX0g9Et7XFoSR9vFe04PbCX+XdjEP29v2kFdpPu+HZjEL3Zvo3mXzYjKq4k3MdOZ3IvbUwOyv7t9wrBtp9ezKxzGvQ2nOV+PrmuHzltwew5bNWLxjoPVvFhn6Yfd+K/Xjr8J68XpNKktMNkcNPYz8p69MoTcztdi2sl6gE1/sixjsO7wZ5kRY+HoZqrr+13nbfjhzht/XUIRfGy+ZaHcRra7rOrq49pssZX9cWbapHJmvRWKjErppEYra9pNKqHbUisveZ11bflOzVKqUb1KmqD7FZErU1oPFqS2qa1KaQfZtXT8m+X82nm+hRqN0NWOZdX0yybfMyFZmoRnS6vVv/bavj83NmCk8krnFLZXYhZ3GHdthEo03qNlh6q9nkmRdrGa+s9ixWptQ+gSpUVazmYyrcRTFHpU2MSmTTu4f3tbaw0iM6NZnbzRL4U8NGStgZdKSmK6vGtaoeFbr2NLWeo9PY3bG9t7vLZKynlnJm8T9SaH4hxHdqGZHkTcRHV8/kHFaZhzfTfHov07p3Wkx3PBueyaTqbGUZCkUbVyVX9AjTVYuYrXsiM+plWoqZOsVHyxt2bFfkrdJWVKa3KFVeqkrZUtTme19k5t+uPvTyl61dml2ytEVnYlU66MXKmoV2ulymXakqv3FcZtpqylXZMpnzzshWYmsW1pUKUrt3w7vXk7t86rfNsFJcm3KkW6kLXdB3ZJTWbVvUFrRWneKfuUZ1lj53LQtrZzGyZxP2UFklUqXkyd4u+XbqqYt5xjWXyzXZvO2N3NKn9bRYQAAAAAAAAAAAAAAAAAAAAAAAAAwD/hT8GzeKldM5SFAAAAAElFTkSuQmCC" alt="CAST Logo Rodapé" className="h-6 inline-block mr-2" />
+<img src="/Emblema.png" alt="CAST Logo Rodapé" className="h-10 inline-block mr-2 opacity-80" />
           CAST SERVIÇOS DIGITAIS — Empresa verificada na Binance • 100% avaliações positivas
         </div>
         <p>© 2025 CAST Serviços Digitais. Todos os direitos reservados.</p>
