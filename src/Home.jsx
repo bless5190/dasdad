@@ -21,33 +21,22 @@ const CryptoPrice = ({ id, label }) => {
   );
 };
 
-const P2PAnuncios = ({ nickname }) => {
+const P2PAnuncios = () => {
   const [ads, setAds] = React.useState([]);
 
   useEffect(() => {
-    console.log("Apelido usado:", nickname);
-    fetch('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        page: 1,
-        rows: 5,
-        payTypes: ["PIX"],
-        asset: "USDT",
-        tradeType: "SELL",
-        fiat: "BRL",
-        userProfileNick: nickname
+    console.log("Buscando anúncios da CAST-INTERMEDIACAO...");
+
+    fetch('/api/binance')
+      .then(res => res.json())
+      .then(data => {
+        console.log("Anúncios recebidos da API local:", data);
+        setAds(data?.data || []);
       })
-    })
-    .then(res => res.json())
-    .then(data => {
-      console.log("Anúncios recebidos da Binance:", data);
-      setAds(data?.data || []);
-    })
-    .catch(err => {
-      console.error("Erro ao buscar anúncios da Binance:", err);
-    });
-  }, [nickname]);
+      .catch(err => {
+        console.error("Erro ao buscar anúncios via API local:", err);
+      });
+  }, []);
 
   return (
     <div className="space-y-4">
