@@ -24,19 +24,22 @@ const CryptoPrice = ({ id, label }) => {
 const P2PAnuncios = () => {
   const [ads, setAds] = React.useState([]);
 
-  useEffect(() => {
-    console.log("Buscando anúncios da CAST-INTERMEDIACAO...");
-
-    fetch('/api/binance')
-      .then(res => res.json())
-      .then(data => {
-        console.log("Anúncios recebidos da API local:", data);
-        setAds(data?.data || []);
-      })
-      .catch(err => {
-        console.error("Erro ao buscar anúncios via API local:", err);
-      });
-  }, []);
+useEffect(() => {
+  console.log("Buscando anúncios da CAST-INTERMEDIACAO...");
+  fetch('https://binance-proxy-roan.vercel.app/api/binance', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ nickname: "CAST-INTERMEDIACAO" })
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log("Anúncios recebidos da API da Vercel:", data);
+      setAds(data?.data || []);
+    })
+    .catch(err => {
+      console.error("Erro ao buscar anúncios via API da Vercel:", err);
+    });
+}, []);
 
   return (
     <div className="space-y-4">
