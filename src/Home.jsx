@@ -37,7 +37,7 @@ const P2PAnuncios = ({ nickname }) => {
   publisherType: "merchant",
   merchantCheck: true,
   proMerchantAds: true,
-  userProfileNick: nickname
+  userProfileNick: CAST-INTERMEDIACAO
 })
 
     })
