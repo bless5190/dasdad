@@ -20,33 +20,33 @@ const CryptoPrice = ({ id, label }) => {
     </div>
   );
 };
+
 const P2PAnuncios = ({ nickname }) => {
   const [ads, setAds] = React.useState([]);
 
   useEffect(() => {
+    console.log("Apelido usado:", nickname);
     fetch('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-  page: 1,
-  rows: 5,
-  payTypes: ["PIX"],
-  asset: "USDT",
-  tradeType: "SELL",
-  fiat: "BRL",
-  publisherType: "merchant",
-  merchantCheck: true,
-  proMerchantAds: true,
-  userProfileNick: nickname
-})
-
+        page: 1,
+        rows: 5,
+        payTypes: ["PIX"],
+        asset: "USDT",
+        tradeType: "SELL",
+        fiat: "BRL",
+        userProfileNick: nickname
+      })
     })
     .then(res => res.json())
-.then(data => {
-  console.log("Anúncios recebidos da Binance:", data); // 👈 Isto irá mostrar no console
-  setAds(data?.data || []);
-});
-
+    .then(data => {
+      console.log("Anúncios recebidos da Binance:", data);
+      setAds(data?.data || []);
+    })
+    .catch(err => {
+      console.error("Erro ao buscar anúncios da Binance:", err);
+    });
   }, [nickname]);
 
   return (
@@ -64,6 +64,7 @@ const P2PAnuncios = ({ nickname }) => {
   );
 };
 
+// (o restante do componente Home permanece inalterado)
 export default function Home() {
   const [news, setNews] = React.useState([]);
 
