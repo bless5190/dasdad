@@ -2,10 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaBitcoin, FaExchangeAlt, FaMoneyBillWave, FaHandshake, FaWhatsapp, FaShieldAlt, FaUserCheck, FaStar } from "react-icons/fa";
 
+import { useEffect } from "react";
+
 const CryptoPrice = ({ id, label }) => {
   const [price, setPrice] = React.useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
       .then(res => res.json())
       .then(data => setPrice(data[id]?.brl));
@@ -18,41 +20,33 @@ const CryptoPrice = ({ id, label }) => {
     </div>
   );
 };
-
 const P2PAnuncios = ({ nickname }) => {
   const [ads, setAds] = React.useState([]);
 
-  React.useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const res = await fetch('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            page: 1,
-            rows: 5,
-            payTypes: ["PIX"],
-            asset: "USDT",
-            tradeType: "SELL",
-            fiat: "BRL",
-            userProfileNick: nickname
-          })
-        });
+  useEffect(() => {
+    fetch('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+  page: 1,
+  rows: 5,
+  payTypes: ["PIX"],
+  asset: "USDT",
+  tradeType: "SELL",
+  fiat: "BRL",
+  publisherType: "merchant",
+  merchantCheck: true,
+  proMerchantAds: true,
+  userProfileNick: nickname
+})
 
-        const data = await res.json();
-        console.log("Anúncios retornados da Binance:", data);
+    })
+    .then(res => res.json())
+.then(data => {
+  console.log("Anúncios recebidos da Binance:", data); // 👈 Isto irá mostrar no console
+  setAds(data?.data || []);
+});
 
-        if (!data?.data || data.data.length === 0) {
-          console.warn("Nenhum anúncio retornado para o nickname:", nickname);
-        }
-
-        setAds(data?.data || []);
-      } catch (error) {
-        console.error("Erro ao buscar anúncios da Binance:", error);
-      }
-    };
-
-    if (nickname) fetchAds();
   }, [nickname]);
 
   return (
@@ -73,27 +67,27 @@ const P2PAnuncios = ({ nickname }) => {
 export default function Home() {
   const [news, setNews] = React.useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://br.cointelegraph.com/rss'))
-        .then(res => res.json())
-        .then(data => {
-          const parser = new DOMParser();
-          const xml = parser.parseFromString(data.contents, 'text/html');
-          const items = xml.querySelectorAll('item');
-          const newsItems = Array.from(items).slice(0, 5).map(item => ({
-            title: item.querySelector('title')?.textContent
-              .replace(/<!\[CDATA\[|\]\]>/g, '')
-              .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec)) || '',
-            link: item.querySelector('link')?.textContent || '#',
-            date: item.querySelector('pubDate')?.textContent || ''
-          }));
-          setNews(newsItems);
-        });
+      .then(res => res.json())
+      .then(data => {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents, 'text/html');
+        const items = xml.querySelectorAll('item');
+        const newsItems = Array.from(items).slice(0, 5).map(item => ({
+          title: item.querySelector('title')?.textContent
+  .replace(/<!\[CDATA\[|\]\]>/g, '')
+  .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec)) || '',
+          link: item.querySelector('link')?.textContent || '#',
+          date: item.querySelector('pubDate')?.textContent || ''
+        }));
+        setNews(newsItems);
+      });
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const links = document.querySelectorAll('a[href^="#"]');
     links.forEach(link => {
       link.addEventListener('click', function (e) {
