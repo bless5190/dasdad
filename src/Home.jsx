@@ -56,17 +56,11 @@ const P2PAnuncios = () => {
           buyAds.map((item, index) => (
             <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
               <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: COMPRAR</p>
+              <p className="text-gray-300 text-sm">Tipo: Comprar da CAST</p>
               <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-              <p className="text-gray-300 text-sm">
-                Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}
-              </p>
-              <p className="text-gray-400 text-sm">
-                Método: {item.adv.tradeMethods[0]?.tradeMethodName}
-              </p>
-              <p className="text-gray-500 text-xs">
-                Anunciante: {item.advertiser?.nickName}
-              </p>
+              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
+              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
+              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
             </div>
           ))
         )}
@@ -78,17 +72,11 @@ const P2PAnuncios = () => {
           sellAds.map((item, index) => (
             <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
               <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: VENDER</p>
+              <p className="text-gray-300 text-sm">Tipo: Vender para a CAST</p>
               <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-              <p className="text-gray-300 text-sm">
-                Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}
-              </p>
-              <p className="text-gray-400 text-sm">
-                Método: {item.adv.tradeMethods[0]?.tradeMethodName}
-              </p>
-              <p className="text-gray-500 text-xs">
-                Anunciante: {item.advertiser?.nickName}
-              </p>
+              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
+              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
+              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
             </div>
           ))
         )}
