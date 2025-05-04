@@ -6,17 +6,10 @@ const CryptoPrice = ({ id, label }) => {
   const [price, setPrice] = useState(null);
 
   useEffect(() => {
-  const fetchPrice = () => {
     fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
       .then(res => res.json())
       .then(data => setPrice(data[id]?.brl));
-  };
-
-  fetchPrice();
-  const interval = setInterval(fetchPrice, 30000);
-
-  return () => clearInterval(interval);
-}, [id]);
+  }, [id]);
 
   return (
     <div className="flex items-center justify-between bg-gray-800 rounded p-2 shadow">
@@ -157,7 +150,7 @@ const Home = () => {
 
       <section id="servicos" className="py-20 px-6 bg-gray-800">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">Cotação do Mercado em tempo real</h2>
+          <h2 className="text-3xl font-bold mb-8">Serviços</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-gray-700 p-6 rounded-xl shadow">
               <h3 className="text-xl font-bold mb-4">Cotações em tempo real</h3>
@@ -178,45 +171,46 @@ const Home = () => {
         </div>
       </section>
 
-    <section id="noticias" className="py-20 px-6 bg-gray-900">
-  <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-start">
-    <div>
-      <h2 className="text-3xl font-bold text-green-400 mb-6">Notícias</h2>
-      <ul className="space-y-4 text-sm">
-        {news.map((item, index) => (
-          <li key={index} className="bg-gray-800 p-3 rounded-lg shadow hover:shadow-lg transition text-left text-sm">
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-400 text-base font-medium hover:underline block mb-1"
-            >
-              {item.title}
-            </a>
-            <p className="text-xs text-gray-400">
-              {new Date(item.date).toLocaleDateString('pt-BR')}
-            </p>
-          </li>
-        ))}
-      </ul>
-    </div>
-    <div className="bg-gray-800 p-6 rounded-xl shadow text-center">
-      <h3 className="text-lg text-white font-bold mb-2">Cotação USDT/BRL</h3>
-      <p className="text-3xl text-green-400 font-semibold mb-4">
-        {usdtPrice ? `R$ ${usdtPrice.toFixed(2)}` : 'Carregando...'}
-      </p>
-      <iframe
-        src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_59e91&symbol=BINANCE:USDTBRL&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=America%2FSao_Paulo&locale=br"
-        width="100%"
-        height="240"
-        frameBorder="0"
-        allowTransparency="true"
-        loading="lazy"
-        className="rounded"
-      ></iframe>
-    </div>
-  </div>
-</section>
+      <section id="noticias" className="py-20 px-6 bg-gray-800">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-green-400 mb-6">Notícias</h2>
+          <ul className="space-y-4">
+            {news.map((item, index) => (
+              <li key={index} className="text-left bg-gray-700 p-4 rounded-xl">
+                <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-green-400 hover:underline text-lg">
+                  {item.title}
+                </a>
+                <p className="text-sm text-gray-400">{new Date(item.date).toLocaleDateString('pt-BR')}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+            <section id="feedbacks" className="py-20 px-6 bg-gray-900">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-white mb-10 flex items-center justify-center gap-2">
+            <FaStar className="text-yellow-400" /> Feedbacks dos Clientes
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6 text-left">
+            <div className="bg-gray-800 p-4 rounded-xl shadow">
+              <p className="text-white font-semibold">Transação rápida</p>
+              <p className="text-sm text-gray-400">P2P-368582dz • 2025-04-30</p>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-xl shadow">
+              <p className="text-white font-semibold">Transação rápida, Educado e amigável</p>
+              <p className="text-sm text-gray-400">P2P-9fd053vf • 2025-04-15</p>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-xl shadow">
+              <p className="text-white font-semibold">Obrigado!</p>
+              <p className="text-sm text-gray-400">VitorBarbosaJr • 2025-04-11</p>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-xl shadow">
+              <p className="text-white font-semibold">Excelente atendimento e liberação ágil</p>
+              <p className="text-sm text-gray-400">Usuário Anônimo • 2025-04-13</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section id="contato" className="py-20 px-6 bg-gray-900">
         <div className="max-w-xl mx-auto text-center">
