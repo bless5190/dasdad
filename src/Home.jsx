@@ -21,25 +21,76 @@ const CryptoPrice = ({ id, label }) => {
   );
 };
 
-const P2PAnuncios = () => {
-  const [ads, setAds] = React.useState([]);
+import React, { useEffect, useState } from "react";
 
-useEffect(() => {
-  console.log("Buscando anúncios da CAST-INTERMEDIACAO...");
-  fetch('https://binance-proxy-roan.vercel.app/api/binance', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nickname: "CAST-INTERMEDIACAO" })
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log("Anúncios recebidos da API da Vercel:", data);
-      setAds(data?.data || []);
-    })
-    .catch(err => {
-      console.error("Erro ao buscar anúncios via API da Vercel:", err);
-    });
-}, []);
+const P2PAnuncios = () => {
+  const [buyAds, setBuyAds] = useState([]);
+  const [sellAds, setSellAds] = useState([]);
+
+  useEffect(() => {
+    const fetchAds = async (type, setter) => {
+      try {
+        const res = await fetch('https://binance-proxy-roan.vercel.app/api/binance', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nickname: "CAST-INTERMEDIACAO",
+            tradeType: type
+          })
+        });
+        const data = await res.json();
+        setter(data?.data || []);
+      } catch (err) {
+        console.error(`Erro ao buscar anúncios ${type}:`, err);
+      }
+    };
+
+    fetchAds("BUY", setBuyAds);
+    fetchAds("SELL", setSellAds);
+  }, []);
+
+  return (
+    <div className="space-y-8">
+      <div>
+        <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Compra</h3>
+        {buyAds.length === 0 ? <p>Carregando anúncios de compra...</p> : (
+          buyAds.map((item, index) => (
+            <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
+              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
+              <p className="text-gray-300 text-sm">Tipo: {item.adv.tradeType}</p>
+              <p className="text-gray-300 text-sm">
+                Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}
+              </p>
+              <p className="text-gray-400 text-sm">
+                Método: {item.adv.tradeMethods[0]?.tradeMethodName}
+              </p>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div>
+        <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Venda</h3>
+        {sellAds.length === 0 ? <p>Carregando anúncios de venda...</p> : (
+          sellAds.map((item, index) => (
+            <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
+              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
+              <p className="text-gray-300 text-sm">Tipo: {item.adv.tradeType}</p>
+              <p className="text-gray-300 text-sm">
+                Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}
+              </p>
+              <p className="text-gray-400 text-sm">
+                Método: {item.adv.tradeMethods[0]?.tradeMethodName}
+              </p>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default P2PAnuncios;
 
   return (
     <div className="space-y-4">
