@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FaBitcoin, FaExchangeAlt, FaMoneyBillWave, FaHandshake, FaWhatsapp, FaShieldAlt, FaUserCheck, FaStar } from "react-icons/fa";
+import { FaBitcoin, FaWhatsapp, FaShieldAlt, FaUserCheck, FaStar } from "react-icons/fa";
 
 const CryptoPrice = ({ id, label }) => {
   const [price, setPrice] = useState(null);
@@ -35,11 +35,9 @@ const P2PAnuncios = () => {
           })
         });
         const data = await res.json();
-
         const filtered = (data?.data || []).filter(
           item => item.advertiser?.nickName === "CAST-INTERMEDIACAO"
         );
-
         setter(filtered);
       } catch (err) {
         console.error(`Erro ao buscar anúncios ${type}:`, err);
@@ -59,6 +57,7 @@ const P2PAnuncios = () => {
             <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
               <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
               <p className="text-gray-300 text-sm">Tipo: {item.adv.tradeType}</p>
+              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
               <p className="text-gray-300 text-sm">
                 Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}
               </p>
@@ -80,6 +79,7 @@ const P2PAnuncios = () => {
             <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
               <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
               <p className="text-gray-300 text-sm">Tipo: {item.adv.tradeType}</p>
+              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
               <p className="text-gray-300 text-sm">
                 Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}
               </p>
@@ -96,6 +96,8 @@ const P2PAnuncios = () => {
     </div>
   );
 };
+
+export { CryptoPrice, P2PAnuncios };
 
 const Home = () => {
   const [news, setNews] = useState([]);
