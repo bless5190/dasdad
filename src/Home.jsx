@@ -20,7 +20,7 @@ const CryptoPrice = ({ id, label }) => {
   return (
     <div className="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-800 rounded p-3 shadow w-full gap-2 sm:gap-0">
       <span className="text-green-400 font-semibold">{label}</span>
-      <span className="text-white">{price ? `R$ ${price.toFixed(3)}` : '...'}</span>
+      <span className="text-white">{price ? `R$ ${price.toFixed(4)}` : '...'}</span>
     </div>
   );
 };
@@ -55,7 +55,7 @@ const P2PAnuncios = () => {
   const renderAds = (ads, tipo) => (
     ads.map((item, index) => (
       <div key={`${tipo}-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-        <p className="text-green-400 font-semibold">Preço: R$ {parseFloat(item.adv.price).toFixed(2)}</p>
+        <p className="text-green-400 font-semibold">Preço: R$ {parseFloat(item.adv.price).toFixed(4)}</p>
         <p className="text-gray-300 text-sm">Tipo: {tipo === "BUY" ? "Comprar da CAST" : "Vender para a CAST"}</p>
         <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
         <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
