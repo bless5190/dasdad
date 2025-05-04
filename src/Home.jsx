@@ -134,9 +134,10 @@ const Home = () => {
           <h2 className="text-4xl md:text-5xl font-extrabold text-green-400 mb-8">Sobre a CAST</h2>
           <p className="text-gray-300 leading-relaxed">
             A CAST Serviços Digitais é uma empresa respeitada e sólida no mercado de compra e venda de criptoativos, atuando sempre com excelência, respeito e transparência.
-            Sempre respeitando e trabalhando com transparência, e seguindo os padrões mais altos de atendimento humano. Com taxas extremamente competitivas no mercado.
+            Seguindo os padrões mais altos de atendimento humano. Com taxas extremamente competitivas no mercado.
             <br /><br />
             A CAST possui como objetivo proporcionar uma acessibilidade com confiança para nossos clientes, é por isso que sempre estamos investindo em novas soluções, e em nossa infraestrutura.
+            Te convidamos a vir conhecer o nosso trabalho, será um prazer ter você como cliente. Aqui, valorizamos extremamente você!
           </p>
         </div>
       </section>
