@@ -327,4 +327,3 @@ export default Home;
       </button>
     </motion.div>
   );
-
