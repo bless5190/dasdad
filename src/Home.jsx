@@ -6,10 +6,17 @@ const CryptoPrice = ({ id, label }) => {
   const [price, setPrice] = useState(null);
 
   useEffect(() => {
+  const fetchPrice = () => {
     fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
       .then(res => res.json())
       .then(data => setPrice(data[id]?.brl));
-  }, [id]);
+  };
+
+  fetchPrice();
+  const interval = setInterval(fetchPrice, 30000); // ✅ Atualiza a cada 30s
+
+  return () => clearInterval(interval);
+}, [id]);
 
   return (
    <div className="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-800 rounded p-3 shadow w-full gap-2 sm:gap-0">
