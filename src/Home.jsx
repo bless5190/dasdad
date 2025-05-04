@@ -86,26 +86,22 @@ const P2PAnuncios = () => {
   );
 };
 
-
-export default P2PAnuncios;
-
+const Home = () => {
   return (
-    <div className="space-y-4">
-      {ads.length === 0 ? <p>Carregando anúncios...</p> : (
-        ads.map((item, index) => (
-          <div key={index} className="bg-gray-900 p-4 rounded shadow text-left">
-            <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-            <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-            <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-          </div>
-        ))
-      )}
-    </div>
+    <motion.div className="min-h-screen p-6 bg-gray-950 text-white">
+      <h1 className="text-3xl font-bold mb-6 text-center">CAST Serviços Digitais</h1>
+      <div className="mb-10">
+        <CryptoPrice id="bitcoin" label="BTC" />
+        <CryptoPrice id="ethereum" label="ETH" />
+        <CryptoPrice id="tether" label="USDT" />
+      </div>
+      <P2PAnuncios />
+    </motion.div>
   );
 };
 
-// (o restante do componente Home permanece inalterado)
-export default function Home() {
+export default Home;
+
   const [news, setNews] = React.useState([]);
 
   useEffect(() => {
