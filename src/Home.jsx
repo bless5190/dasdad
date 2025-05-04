@@ -31,29 +31,56 @@ const P2PAnuncios = () => {
   const [sellAds, setSellAds] = useState([]);
 
   useEffect(() => {
-    const fetchAds = async (type, setter) => {
+    const fetchAds = async (tradeType, setter) => {
       try {
         const res = await fetch('https://binance-proxy-roan.vercel.app/api/binance', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             nickname: "CAST-INTERMEDIACAO",
-            tradeType: type
+            tradeType: tradeType
           })
         });
         const data = await res.json();
-        const filtered = (data?.data || []).filter(
-          item => item.advertiser?.nickName === "CAST-INTERMEDIACAO"
-        );
-        setter(filtered);
+        setter(data?.data || []);
       } catch (err) {
-        console.error(`Erro ao buscar anúncios ${type}:`, err);
+        console.error(`Erro ao buscar anúncios (${tradeType}):`, err);
       }
     };
 
     fetchAds("BUY", setBuyAds);
     fetchAds("SELL", setSellAds);
   }, []);
+
+  const renderAds = (ads, tipo) => (
+    ads.map((item, index) => (
+      <div key={`${tipo}-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
+        <p className="text-green-400 font-semibold">Preço: R$ {parseFloat(item.adv.price).toFixed(2)}</p>
+        <p className="text-gray-300 text-sm">Tipo: {tipo === "BUY" ? "Comprar da CAST" : "Vender para a CAST"}</p>
+        <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
+        <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
+        <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
+        <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
+      </div>
+    ))
+  );
+
+  return (
+    <section id="anuncios" className="py-20 px-6 bg-gray-900">
+      <div className="max-w-5xl mx-auto text-center">
+        <h2 className="text-3xl font-bold mb-8">Anúncios CAST-INTERMEDIACAO</h2>
+
+        <div className="space-y-6">
+          <h3 className="text-xl font-bold text-green-400">Anúncios de Compra</h3>
+          {buyAds.length > 0 ? renderAds(buyAds, "BUY") : <p className="text-gray-400">Nenhum anúncio de compra disponível.</p>}
+
+          <h3 className="text-xl font-bold text-green-400 mt-10">Anúncios de Venda</h3>
+          {sellAds.length > 0 ? renderAds(sellAds, "SELL") : <p className="text-gray-400">Nenhum anúncio de venda disponível.</p>}
+        </div>
+      </div>
+    </section>
+  );
+};
 
   return (
     <div className="space-y-8">
