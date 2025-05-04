@@ -186,6 +186,67 @@ const Home = () => {
           </ul>
         </div>
       </section>
+            <section id="feedbacks" className="py-20 px-6 bg-gray-900">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-white mb-10 flex items-center justify-center gap-2">
+            <FaStar className="text-yellow-400" /> Feedbacks dos Clientes
+          </h2>
+          <div className="grid md:grid-cols-2 gap-6 text-left">
+            <div className="bg-gray-800 p-4 rounded-xl shadow">
+              <p className="text-white font-semibold">Transação rápida</p>
+              <p className="text-sm text-gray-400">P2P-368582dz • 2025-04-30</p>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-xl shadow">
+              <p className="text-white font-semibold">Transação rápida, Educado e amigável</p>
+              <p className="text-sm text-gray-400">P2P-9fd053vf • 2025-04-15</p>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-xl shadow">
+              <p className="text-white font-semibold">Obrigado!</p>
+              <p className="text-sm text-gray-400">VitorBarbosaJr • 2025-04-11</p>
+            </div>
+            <div className="bg-gray-800 p-4 rounded-xl shadow">
+              <p className="text-white font-semibold">Excelente atendimento e liberação ágil</p>
+              <p className="text-sm text-gray-400">Usuário Anônimo • 2025-04-13</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contato" className="py-20 px-6 bg-gray-900">
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-white mb-6 bg-black/60 px-4 py-2 rounded-xl inline-block">Contato</h2>
+          <p className="text-white mb-6 bg-black/60 px-4 py-2 rounded-xl inline-block">Fale com a CAST Serviços Digitais pelo WhatsApp ou preencha o formulário abaixo.</p>
+          <form action="https://formspree.io/f/xjkwyrkb" method="POST" className="space-y-4" onSubmit={(e) => {
+            e.preventDefault();
+            const form = e.target;
+            fetch(form.action, {
+              method: form.method,
+              body: new FormData(form),
+              headers: { 'Accept': 'application/json' }
+            }).then(response => {
+              if (response.ok) {
+                alert('Mensagem enviada com sucesso!');
+                form.reset();
+              } else {
+                alert('Erro ao enviar. Tente novamente.');
+              }
+            });
+          }}>
+            <input type="text" name="nome" required placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <input type="email" name="email" required placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
+            <textarea name="mensagem" required placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
+            <button type="submit" className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded text-white">Enviar</button>
+          </form>
+        </div>
+      </section>
+            <footer className="bg-gray-950 text-center py-6 border-t border-gray-800 mt-10 text-gray-500 text-sm">
+        <div className="mb-2">
+          <img src="/Emblema.png" alt="CAST Logo Rodapé" className="h-10 inline-block mr-2 opacity-80" />
+          CAST SERVIÇOS DIGITAIS — Empresa verificada na Binance • 100% avaliações positivas
+        </div>
+        <p>© 2025 CAST Serviços Digitais. Todos os direitos reservados.</p>
+      </footer>
+    
     </motion.div>
   );
 };
