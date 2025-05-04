@@ -106,27 +106,16 @@ const Home = () => {
 
   return (
     <motion.div className="min-h-screen bg-gray-950 text-white font-sans">
-      <header className="flex justify-between items-center py-4 px-6 border-b border-gray-800 bg-black bg-opacity-60">
-        <img src="/Emblema.png" alt="CAST Logo" className="h-14 opacity-80" />
-        <nav className="space-x-6 text-sm md:text-base font-medium">
-          <a href="#inicio" className="hover:text-white">Início</a>
-          <a href="#sobre" className="hover:text-green-400">Sobre</a>
-          <a href="#anuncios" className="hover:text-green-400">Anúncios</a>
-          <a href="#servicos" className="hover:text-green-400">Serviços</a>
-          <a href="#noticias" className="hover:text-green-400">Notícias</a>
-          <a href="#contato" className="hover:text-green-400">Contato</a>
-        </nav>
-      </header>
-
-      <section id="inicio" className="text-center py-20 px-6">
-        <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-6">CAST SERVIÇOS DIGITAIS</h1>
-        <p className="text-lg md:text-xl bg-black/60 p-4 rounded-xl max-w-2xl mx-auto">
-          Compra e venda de criptoativos com segurança, transparência e atendimento humanizado.
-        </p>
-        <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 mt-8 bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl text-lg">
-          <FaWhatsapp /> Fale pelo WhatsApp
-        </a>
+      <section id="sobre" className="py-20 px-6 text-center bg-gray-900">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold mb-6">Sobre a CAST</h2>
+          <p className="text-gray-300 leading-relaxed">
+            A CAST Serviços Digitais é uma empresa respeitada e sólida no mercado de compra e venda de criptoativos, atuando sempre com excelência, respeito e transparência.
+            Sempre respeitando e trabalhando com transparência, e seguindo os padrões mais altos de atendimento humano. Com taxas extremamente competitivas no mercado.
+            <br /><br />
+            A CAST possui como objetivo proporcionar uma acessibilidade com confiança para nossos clientes, é por isso que sempre estamos investindo em novas soluções, e em nossa infraestrutura.
+          </p>
+        </div>
       </section>
 
       <section id="sobre" className="py-20 px-6 text-center bg-gray-900">
