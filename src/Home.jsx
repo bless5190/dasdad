@@ -62,8 +62,9 @@ const P2PAnuncios = () => {
         {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
           buyAds.map((item, index) => (
             <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: Comprar da CAST</p>
+             <p className="text-4xl text-green-300 font-bold mb-4 animate-pulse">
+             {usdtPrice ? `R$ ${usdtPrice.toFixed(4)}` : 'Carregando...'}</p>
+             <p className="text-gray-300 text-sm">Tipo: Comprar da CAST</p>
               <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
               <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
               <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
