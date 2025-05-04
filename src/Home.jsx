@@ -12,7 +12,7 @@ const CryptoPrice = ({ id, label }) => {
   }, [id]);
 
   return (
-    <div className="flex items-center justify-between bg-gray-800 rounded p-2 shadow">
+   <div className="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-800 rounded p-3 shadow w-full gap-2 sm:gap-0">
       <span className="text-green-400 font-semibold">{label}</span>
       <span className="text-white">{price ? `R$ ${price.toFixed(2)}` : '...'}</span>
     </div>
