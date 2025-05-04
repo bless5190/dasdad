@@ -97,27 +97,23 @@ const P2PAnuncios = () => {
   );
 };
 
-export { CryptoPrice, P2PAnuncios };
-
 const Home = () => {
   const [news, setNews] = useState([]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://br.cointelegraph.com/rss'))
-        .then(res => res.json())
-        .then(data => {
-          const parser = new DOMParser();
-          const xml = parser.parseFromString(data.contents, 'text/html');
-          const items = xml.querySelectorAll('item');
-          const newsItems = Array.from(items).slice(0, 5).map(item => ({
-            title: item.querySelector('title')?.textContent.replace(/<!\[CDATA\[|\]\]>/g, '').replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec)) || '',
-            link: item.querySelector('link')?.textContent || '#',
-            date: item.querySelector('pubDate')?.textContent || ''
-          }));
-          setNews(newsItems);
-        });
-    }
+    fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://br.cointelegraph.com/rss'))
+      .then(res => res.json())
+      .then(data => {
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents, 'text/html');
+        const items = xml.querySelectorAll('item');
+        const newsItems = Array.from(items).slice(0, 5).map(item => ({
+          title: item.querySelector('title')?.textContent || '',
+          link: item.querySelector('link')?.textContent || '#',
+          date: item.querySelector('pubDate')?.textContent || ''
+        }));
+        setNews(newsItems);
+      });
   }, []);
 
   return (
@@ -127,6 +123,7 @@ const Home = () => {
         <nav className="space-x-6 text-sm md:text-base font-medium">
           <a href="#inicio" className="hover:text-white">Início</a>
           <a href="#sobre" className="hover:text-green-400">Sobre</a>
+          <a href="#anuncios" className="hover:text-green-400">Anúncios</a>
           <a href="#servicos" className="hover:text-green-400">Serviços</a>
           <a href="#noticias" className="hover:text-green-400">Notícias</a>
           <a href="#contato" className="hover:text-green-400">Contato</a>
@@ -139,7 +136,7 @@ const Home = () => {
         <p className="text-lg md:text-xl bg-black/60 p-4 rounded-xl max-w-2xl mx-auto">
           Compra e venda de criptoativos com segurança, transparência e atendimento humanizado.
         </p>
-        <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-8 bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl text-lg">
+        <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 mt-8 bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl text-lg">
           <FaWhatsapp /> Fale pelo WhatsApp
         </a>
       </section>
@@ -149,9 +146,17 @@ const Home = () => {
           <h2 className="text-3xl font-bold mb-6">Sobre a CAST</h2>
           <p className="text-gray-300 leading-relaxed">
             A CAST Serviços Digitais é uma empresa respeitada e sólida no mercado de compra e venda de criptoativos, atuando sempre com excelência, respeito e transparência.
+            Sempre respeitando e trabalhando com transparência, e seguindo os padrões mais altos de atendimento humano. Com taxas extremamente competitivas no mercado.
             <br /><br />
-            Buscamos as melhores inovações e usamos tecnologia de ponta para garantir segurança nas transações. Nosso objetivo é proporcionar a melhor experiência aos clientes.
+            A CAST possui como objetivo proporcionar uma acessibilidade com confiança para nossos clientes, é por isso que sempre estamos investindo em novas soluções, e em nossa infraestrutura.
           </p>
+        </div>
+      </section>
+
+      <section id="anuncios" className="py-20 px-6 bg-gray-900">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-6">Anúncios CAST-INTERMEDIACAO</h2>
+          <P2PAnuncios />
         </div>
       </section>
 
@@ -168,20 +173,13 @@ const Home = () => {
                 <CryptoPrice id="binancecoin" label="BNB" />
               </div>
             </div>
-            <div className="bg-gray-700 p-6 rounded-xl shadow flex flex-col justify-center">
+            <div className="bg-gray-700 p-6 rounded-xl shadow flex flex-col justify-center items-center">
               <p className="text-2xl font-bold mb-4">Deseja comprar ou vender criptoativos?</p>
-              <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl text-white text-lg">
+              <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl text-white text-lg">
                 <FaWhatsapp /> Fale pelo WhatsApp
               </a>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section id="anuncios" className="py-20 px-6 bg-gray-900">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Anúncios CAST-INTERMEDIACAO</h2>
-          <P2PAnuncios />
         </div>
       </section>
 
@@ -200,36 +198,9 @@ const Home = () => {
           </ul>
         </div>
       </section>
-
-      <section id="contato" className="py-20 px-6 bg-gray-900">
-        <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Contato</h2>
-          <form action="https://formspree.io/f/xjkwyrkb" method="POST" className="space-y-4">
-            <input type="text" name="nome" required placeholder="Nome" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
-            <input type="email" name="email" required placeholder="Email" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400" />
-            <textarea name="mensagem" required placeholder="Mensagem" className="w-full p-3 rounded bg-gray-700 placeholder-gray-400"></textarea>
-            <button type="submit" className="bg-green-500 hover:bg-green-600 px-6 py-3 rounded text-white">Enviar</button>
-          </form>
-        </div>
-      </section>
-
-      <footer className="bg-gray-950 text-center py-6 border-t border-gray-800 mt-10 text-gray-500 text-sm">
-        <div className="mb-2">
-          <img src="/Emblema.png" alt="CAST Logo Rodapé" className="h-10 inline-block mr-2 opacity-80" />
-          CAST SERVIÇOS DIGITAIS — Empresa verificada na Binance • 100% avaliações positivas
-        </div>
-        <p>© 2025 CAST Serviços Digitais. Todos os direitos reservados.</p>
-      </footer>
-
-      <button
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-5 right-5 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg z-50"
-        aria-label="Voltar ao topo"
-      >
-        ↑
-      </button>
     </motion.div>
   );
 };
 
 export default Home;
+export { CryptoPrice, P2PAnuncios };
