@@ -52,11 +52,11 @@ const P2PAnuncios = () => {
     <div className="space-y-8">
       <div>
         <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Compra</h3>
-        {buyAds.length === 0 ? <p>Carregando anúncios de compra...</p> : (
+        {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
           buyAds.map((item, index) => (
             <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
               <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: {item.adv.tradeType}</p>
+              <p className="text-gray-300 text-sm">Tipo: COMPRAR</p>
               <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
               <p className="text-gray-300 text-sm">
                 Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}
@@ -74,11 +74,11 @@ const P2PAnuncios = () => {
 
       <div>
         <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Venda</h3>
-        {sellAds.length === 0 ? <p>Carregando anúncios de venda...</p> : (
+        {sellAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
           sellAds.map((item, index) => (
             <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
               <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: {item.adv.tradeType}</p>
+              <p className="text-gray-300 text-sm">Tipo: VENDER</p>
               <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
               <p className="text-gray-300 text-sm">
                 Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}
@@ -105,10 +105,10 @@ const Home = () => {
       .then(res => res.json())
       .then(data => {
         const parser = new DOMParser();
-        const xml = parser.parseFromString(data.contents, 'text/html');
+        const xml = parser.parseFromString(data.contents, 'text/xml');
         const items = xml.querySelectorAll('item');
         const newsItems = Array.from(items).slice(0, 5).map(item => ({
-          title: item.querySelector('title')?.textContent || '',
+          title: item.querySelector('title')?.textContent.replace(/<!\[CDATA\[|\]\]>/g, '').replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec)) || '',
           link: item.querySelector('link')?.textContent || '#',
           date: item.querySelector('pubDate')?.textContent || ''
         }));
