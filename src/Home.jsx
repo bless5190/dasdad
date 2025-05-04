@@ -108,7 +108,7 @@ const Home = () => {
     <motion.div className="min-h-screen bg-gray-950 text-white font-sans">
       <header className="flex justify-between items-center py-4 px-6 border-b border-gray-800 bg-black bg-opacity-60">
         <img src="/Emblema.png" alt="CAST Logo" className="h-14 opacity-80" />
-        <nav className="space-x-6 text-sm md:text-base font-medium">
+        <nav className="flex flex-wrap justify-center items-center gap-2 md:gap-4 text-sm md:text-base font-medium mt-4 md:mt-0 px-2 text-center">
           <a href="#inicio" className="hover:text-white">Início</a>
           <a href="#sobre" className="hover:text-green-400">Sobre</a>
           <a href="#anuncios" className="hover:text-green-400">Anúncios</a>
