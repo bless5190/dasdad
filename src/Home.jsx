@@ -35,7 +35,12 @@ const P2PAnuncios = () => {
           })
         });
         const data = await res.json();
-        setter(data?.data || []);
+
+        const filtered = (data?.data || []).filter(
+          item => item.advertiser?.nickName === "CAST-INTERMEDIACAO"
+        );
+
+        setter(filtered);
       } catch (err) {
         console.error(`Erro ao buscar anúncios ${type}:`, err);
       }
@@ -60,6 +65,9 @@ const P2PAnuncios = () => {
               <p className="text-gray-400 text-sm">
                 Método: {item.adv.tradeMethods[0]?.tradeMethodName}
               </p>
+              <p className="text-gray-500 text-xs">
+                Anunciante: {item.advertiser?.nickName}
+              </p>
             </div>
           ))
         )}
@@ -77,6 +85,9 @@ const P2PAnuncios = () => {
               </p>
               <p className="text-gray-400 text-sm">
                 Método: {item.adv.tradeMethods[0]?.tradeMethodName}
+              </p>
+              <p className="text-gray-500 text-xs">
+                Anunciante: {item.advertiser?.nickName}
               </p>
             </div>
           ))
@@ -103,7 +114,6 @@ const Home = () => {
 export default Home;
 
   const [news, setNews] = React.useState([]);
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://br.cointelegraph.com/rss'))
