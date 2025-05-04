@@ -204,7 +204,3 @@ const Home = () => {
 
 export default Home;
 export { CryptoPrice, P2PAnuncios };
-
-
-export default Home;
-export { CryptoPrice, P2PAnuncios };
