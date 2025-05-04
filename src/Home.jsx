@@ -131,7 +131,7 @@ const Home = () => {
 
       <section id="sobre" className="py-20 px-6 text-center bg-gray-900">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6">Sobre a CAST</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-green-400 mb-8">Sobre a CAST</h2>
           <p className="text-gray-300 leading-relaxed">
             A CAST Serviços Digitais é uma empresa respeitada e sólida no mercado de compra e venda de criptoativos, atuando sempre com excelência, respeito e transparência.
             Sempre respeitando e trabalhando com transparência, e seguindo os padrões mais altos de atendimento humano. Com taxas extremamente competitivas no mercado.
@@ -152,7 +152,7 @@ const Home = () => {
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">Serviços</h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gray-700 p-6 rounded-xl shadow">
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-xl border border-gray-700 text-left">
               <h3 className="text-xl font-bold mb-4">Cotações em tempo real</h3>
               <div className="grid grid-cols-2 gap-4">
                 <CryptoPrice id="bitcoin" label="BTC" />
