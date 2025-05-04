@@ -19,70 +19,58 @@ const CryptoPrice = ({ id, label }) => {
   );
 };
 
-const P2PAnuncios = () => {
-  const [buyAds, setBuyAds] = useState([]);
-  const [sellAds, setSellAds] = useState([]);
+const NoticiasSection = ({ news }) => {
+  const [usdtPrice, setUsdtPrice] = useState(null);
 
   useEffect(() => {
-    const fetchAds = async (type, setter) => {
-      try {
-        const res = await fetch('https://binance-proxy-roan.vercel.app/api/binance', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nickname: "CAST-INTERMEDIACAO",
-            tradeType: type
-          })
-        });
-        const data = await res.json();
-        const filtered = (data?.data || []).filter(
-          item => item.advertiser?.nickName === "CAST-INTERMEDIACAO"
-        );
-        setter(filtered);
-      } catch (err) {
-        console.error(`Erro ao buscar anúncios ${type}:`, err);
-      }
-    };
-
-    fetchAds("BUY", setBuyAds);
-    fetchAds("SELL", setSellAds);
+    fetch("https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=brl")
+      .then(res => res.json())
+      .then(data => setUsdtPrice(data.tether.brl));
   }, []);
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Compra</h3>
-        {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
-          buyAds.map((item, index) => (
-            <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: Comprar da CAST</p>
-              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
-            </div>
-          ))
-        )}
+    <section id="noticias" className="py-20 px-6 bg-gray-900">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-start">
+        <div>
+          <h2 className="text-3xl font-bold text-green-400 mb-6">Notícias</h2>
+          <ul className="space-y-4 text-sm">
+            {news.map((item, index) => (
+              <li key={index} className="bg-gray-800 p-3 rounded-lg shadow hover:shadow-lg transition text-left text-sm">
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-green-400 text-base font-medium hover:underline block mb-1"
+                >
+                  {item.title}
+                </a>
+                <p className="text-xs text-gray-400">{new Date(item.date).toLocaleDateString('pt-BR')}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="bg-gray-800 p-6 rounded-xl shadow text-center">
+          <h3 className="text-lg text-white font-bold mb-2">Cotação USDT/BRL</h3>
+          <p className="text-3xl text-green-400 font-semibold mb-4">
+            {usdtPrice ? `R$ ${usdtPrice.toFixed(2)}` : 'Carregando...'}
+          </p>
+          <iframe
+            src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_59e91&symbol=BINANCE:USDTBRL&interval=60&hidesidetoolbar=1&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=America%2FSao_Paulo&locale=br"
+            width="100%"
+            height="240"
+            frameBorder="0"
+            allowTransparency="true"
+            loading="lazy"
+            className="rounded"
+          ></iframe>
+        </div>
       </div>
-
-      <div>
-        <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Venda</h3>
-        {sellAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
-          sellAds.map((item, index) => (
-            <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: Vender para a CAST</p>
-              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
+    </section>
   );
+};
+
+const P2PAnuncios = () => {
+  return <div></div>; // placeholder
 };
 
 const Home = () => {
@@ -129,6 +117,11 @@ const Home = () => {
           <FaWhatsapp /> Fale pelo WhatsApp
         </a>
       </section>
+
+      <NoticiasSection news={news} />
+    </motion.div>
+  );
+};
 
       <section id="sobre" className="py-20 px-6 text-center bg-gray-900">
         <div className="max-w-4xl mx-auto">
