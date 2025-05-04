@@ -6,22 +6,21 @@ const CryptoPrice = ({ id, label }) => {
   const [price, setPrice] = useState(null);
 
   useEffect(() => {
-  const fetchPrice = () => {
-    fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
-      .then(res => res.json())
-      .then(data => setPrice(data[id]?.brl));
-  };
+    const fetchPrice = () => {
+      fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
+        .then(res => res.json())
+        .then(data => setPrice(data[id]?.brl));
+    };
 
-  fetchPrice();
-  const interval = setInterval(fetchPrice, 30000); // ✅ Atualiza a cada 30s
-
-  return () => clearInterval(interval);
-}, [id]);
+    fetchPrice();
+    const interval = setInterval(fetchPrice, 30000);
+    return () => clearInterval(interval);
+  }, [id]);
 
   return (
-   <div className="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-800 rounded p-3 shadow w-full gap-2 sm:gap-0">
+    <div className="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-800 rounded p-3 shadow w-full gap-2 sm:gap-0">
       <span className="text-green-400 font-semibold">{label}</span>
-     <span className="text-white">{price ? `R$ ${price.toFixed(3)}` : '...'}</span>
+      <span className="text-white">{price ? `R$ ${price.toFixed(3)}` : '...'}</span>
     </div>
   );
 };
@@ -38,7 +37,7 @@ const P2PAnuncios = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             nickname: "CAST-INTERMEDIACAO",
-            tradeType: tradeType
+            tradeType
           })
         });
         const data = await res.json();
@@ -66,54 +65,15 @@ const P2PAnuncios = () => {
   );
 
   return (
-    <section id="anuncios" className="py-20 px-6 bg-gray-900">
-      <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-8">Anúncios CAST-INTERMEDIACAO</h2>
-
-        <div className="space-y-6">
-          <h3 className="text-xl font-bold text-green-400">Anúncios de Compra</h3>
-          {buyAds.length > 0 ? renderAds(buyAds, "BUY") : <p className="text-gray-400">Nenhum anúncio de compra disponível.</p>}
-
-          <h3 className="text-xl font-bold text-green-400 mt-10">Anúncios de Venda</h3>
-          {sellAds.length > 0 ? renderAds(sellAds, "SELL") : <p className="text-gray-400">Nenhum anúncio de venda disponível.</p>}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-  return (
     <div className="space-y-8">
       <div>
         <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Compra</h3>
-        {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
-          buyAds.map((item, index) => (
-            <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: Comprar da CAST</p>
-              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
-            </div>
-          ))
-        )}
+        {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : renderAds(buyAds, "BUY")}
       </div>
 
       <div>
         <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Venda</h3>
-        {sellAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
-          sellAds.map((item, index) => (
-            <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: Vender para a CAST</p>
-              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
-            </div>
-          ))
-        )}
+        {sellAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : renderAds(sellAds, "SELL")}
       </div>
     </div>
   );
