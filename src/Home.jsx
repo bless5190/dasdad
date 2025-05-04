@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaBitcoin, FaExchangeAlt, FaMoneyBillWave, FaHandshake, FaWhatsapp, FaShieldAlt, FaUserCheck, FaStar } from "react-icons/fa";
 
-import { useEffect } from "react";
-
 const CryptoPrice = ({ id, label }) => {
-  const [price, setPrice] = React.useState(null);
+  const [price, setPrice] = useState(null);
 
   useEffect(() => {
     fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
@@ -20,8 +18,6 @@ const CryptoPrice = ({ id, label }) => {
     </div>
   );
 };
-
-import React, { useEffect, useState } from "react";
 
 const P2PAnuncios = () => {
   const [buyAds, setBuyAds] = useState([]);
@@ -89,6 +85,7 @@ const P2PAnuncios = () => {
     </div>
   );
 };
+
 
 export default P2PAnuncios;
 
