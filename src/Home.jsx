@@ -2,24 +2,23 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaBitcoin, FaWhatsapp, FaShieldAlt, FaUserCheck, FaStar } from "react-icons/fa";
 
-const CryptoPrice = ({ id, label }) => {
+const CryptoPrice = ({ symbol, label }) => {
   const [price, setPrice] = useState(null);
 
   useEffect(() => {
-    const fetchPrice = async () => {
-      try {
-        const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${id.toUpperCase()}BRL`);
-        const data = await res.json();
-        setPrice(parseFloat(data.price));
-      } catch (error) {
-        console.error("Erro ao buscar preço de mercado da Binance:", error);
-      }
+    const fetchPrice = () => {
+      fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`)
+        .then(res => res.json())
+        .then(data => {
+          const priceBRL = parseFloat(data.price);
+          setPrice(priceBRL);
+        });
     };
 
     fetchPrice();
     const interval = setInterval(fetchPrice, 30000);
     return () => clearInterval(interval);
-  }, [id]);
+  }, [symbol]);
 
   return (
     <div className="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-800 rounded p-3 shadow w-full gap-2 sm:gap-0">
@@ -34,21 +33,23 @@ const P2PAnuncios = () => {
   const [sellAds, setSellAds] = useState([]);
 
   useEffect(() => {
-    const fetchAds = async (tradeType, setter) => {
+    const fetchAds = async (type, setter) => {
       try {
         const res = await fetch('https://binance-proxy-roan.vercel.app/api/binance', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             nickname: "CAST-INTERMEDIACAO",
-            tradeType,
-            rows: 100
+            tradeType: type
           })
         });
         const data = await res.json();
-        setter(data?.data || []);
+        const filtered = (data?.data || []).filter(
+          item => item.advertiser?.nickName === "CAST-INTERMEDIACAO"
+        );
+        setter(filtered);
       } catch (err) {
-        console.error(`Erro ao buscar anúncios (${tradeType}):`, err);
+        console.error(`Erro ao buscar anúncios ${type}:`, err);
       }
     };
 
@@ -56,29 +57,38 @@ const P2PAnuncios = () => {
     fetchAds("SELL", setSellAds);
   }, []);
 
-  const renderAds = (ads, tipo) => (
-    ads.map((item, index) => (
-      <div key={`${tipo}-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-        <p className="text-green-400 font-semibold">Preço: R$ {parseFloat(item.adv.price).toFixed(2)}</p>
-        <p className="text-gray-300 text-sm">Tipo: {tipo === "BUY" ? "Comprar da CAST" : "Vender para a CAST"}</p>
-        <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-        <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-        <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-        <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
-      </div>
-    ))
-  );
-
   return (
     <div className="space-y-8">
       <div>
         <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Compra</h3>
-        {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : renderAds(buyAds, "BUY")}
+        {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
+          buyAds.map((item, index) => (
+            <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
+              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
+              <p className="text-gray-300 text-sm">Tipo: Comprar da CAST</p>
+              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
+              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
+              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
+              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
+            </div>
+          ))
+        )}
       </div>
 
       <div>
         <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Venda</h3>
-        {sellAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : renderAds(sellAds, "SELL")}
+        {sellAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
+          sellAds.map((item, index) => (
+            <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
+              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
+              <p className="text-gray-300 text-sm">Tipo: Vender para a CAST</p>
+              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
+              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
+              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
+              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
@@ -95,7 +105,7 @@ const Home = () => {
         const xml = parser.parseFromString(data.contents, 'text/xml');
         const items = xml.querySelectorAll('item');
         const newsItems = Array.from(items).slice(0, 5).map(item => ({
-          title: item.querySelector('title')?.textContent.replace(/<!\[CDATA\[|\]\]>/g, '').replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec)) || '',
+          title: item.querySelector('title')?.textContent || '',
           link: item.querySelector('link')?.textContent || '#',
           date: item.querySelector('pubDate')?.textContent || ''
         }));
@@ -105,18 +115,6 @@ const Home = () => {
 
   return (
     <motion.div className="min-h-screen bg-gray-950 text-white font-sans">
-      <header className="flex justify-between items-center py-4 px-6 border-b border-gray-800 bg-black bg-opacity-60">
-        <img src="/Emblema.png" alt="CAST Logo" className="h-14 opacity-80" />
-        <nav className="flex flex-wrap justify-center items-center gap-2 md:gap-4 text-sm md:text-base font-medium mt-4 md:mt-0 px-2 text-center">
-          <a href="#inicio" className="hover:text-white">Início</a>
-          <a href="#sobre" className="hover:text-green-400">Sobre</a>
-          <a href="#anuncios" className="hover:text-green-400">Anúncios</a>
-          <a href="#servicos" className="hover:text-green-400">Serviços</a>
-          <a href="#noticias" className="hover:text-green-400">Notícias</a>
-          <a href="#contato" className="hover:text-green-400">Contato</a>
-        </nav>
-      </header>
-
       <section id="inicio" className="text-center py-20 px-6">
         <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
         <h1 className="text-4xl md:text-5xl font-extrabold mb-6">CAST SERVIÇOS DIGITAIS</h1>
@@ -144,20 +142,20 @@ const Home = () => {
       <section id="servicos" className="py-20 px-6 bg-gray-800">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-8">Cotações em tempo real (Binance)</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <CryptoPrice id="BTC" label="BTC/BRL" />
-            <CryptoPrice id="ETH" label="ETH/BRL" />
-            <CryptoPrice id="USDT" label="USDT/BRL" />
-            <CryptoPrice id="BNB" label="BNB/BRL" />
-            <CryptoPrice id="SOL" label="SOL/BRL" />
-            <CryptoPrice id="BCH" label="BCH/BRL" />
+          <div className="grid md:grid-cols-2 gap-4">
+            <CryptoPrice symbol="BTCBRL" label="BTC/BRL" />
+            <CryptoPrice symbol="ETHBRL" label="ETH/BRL" />
+            <CryptoPrice symbol="USDTBRL" label="USDT/BRL" />
+            <CryptoPrice symbol="BNBBRL" label="BNB/BRL" />
+            <CryptoPrice symbol="SOLBRL" label="SOL/BRL" />
+            <CryptoPrice symbol="BCHBRL" label="BCH/BRL" />
           </div>
         </div>
       </section>
 
       <section id="anuncios" className="py-20 px-6 bg-gray-900">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Anúncios CAST-INTERMEDIACAO</h2>
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-green-400 mb-8">Anúncios CAST-INTERMEDIACAO</h2>
           <P2PAnuncios />
         </div>
       </section>
@@ -177,10 +175,8 @@ const Home = () => {
           </ul>
         </div>
       </section>
-    </motion.div>
-  );
-};
-            <section id="feedbacks" className="py-20 px-6 bg-gray-900">
+
+      <section id="feedbacks" className="py-20 px-6 bg-gray-900">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-10 flex items-center justify-center gap-2">
             <FaStar className="text-yellow-400" /> Feedbacks dos Clientes
@@ -233,18 +229,17 @@ const Home = () => {
           </form>
         </div>
       </section>
-            <footer className="bg-gray-950 text-center py-6 border-t border-gray-800 mt-10 text-gray-500 text-sm">
+
+      <footer className="bg-gray-950 text-center py-6 border-t border-gray-800 mt-10 text-gray-500 text-sm">
         <div className="mb-2">
           <img src="/Emblema.png" alt="CAST Logo Rodapé" className="h-10 inline-block mr-2 opacity-80" />
           CAST SERVIÇOS DIGITAIS — Empresa verificada na Binance • 100% avaliações positivas
         </div>
         <p>© 2025 CAST Serviços Digitais. Todos os direitos reservados.</p>
       </footer>
-    
     </motion.div>
   );
 };
 
 export default Home;
 export { CryptoPrice, P2PAnuncios };
-
