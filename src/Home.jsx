@@ -81,7 +81,13 @@ const P2PAnuncios = () => {
         });
         const data = await res.json();
         console.log(`🔎 ${type} ads recebidos:`, data?.data);
-        setter(data?.data || []);
+        const assets = data?.data?.map(ad => ad.adv.asset);
+        const uniqueAssets = [...new Set(assets)];
+        console.log(`🪙 Ativos únicos encontrados (${type}):`, uniqueAssets);
+        const uniqueAds = data?.data?.filter((v, i, a) =>
+          a.findIndex(t => t.adv.advNo === v.adv.advNo) === i
+        );
+        setter(uniqueAds || []);
       } catch (err) {
         console.error(`Erro ao buscar anúncios ${type}:`, err);
       }
@@ -95,12 +101,12 @@ const P2PAnuncios = () => {
     const availableBRL = parseFloat(item.adv.price) * parseFloat(item.adv.tradableQuantity || 0);
 
     return (
-      <div key={`${tipo}-${item.adv.advNo}`} className="bg-gradient-to-tr from-green-900 via-black to-green-800 p-6 rounded-2xl shadow-xl border border-green-500">
+      <div key={`${tipo}-${item.adv.advNo}`} className="bg-gray-800 p-5 rounded-xl shadow-md border border-gray-700 hover:shadow-lg transition-shadow">
         <h4 className="text-lg font-bold text-green-300 mb-1">{item.adv.asset}/{item.adv.fiat}</h4>
-        <p className="text-white font-semibold mb-1">Preço: R$ {parseFloat(item.adv.price).toFixed(2)}</p>
+        <p className="text-green-400 font-semibold mb-1">Preço: R$ {parseFloat(item.adv.price).toFixed(2)}</p>
         <p className="text-sm text-gray-300 mb-1">Tipo: {tipo === "BUY" ? "Comprar da CAST" : "Vender para a CAST"}</p>
         <p className="text-sm text-gray-300 mb-1">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-        <p className="text-sm text-green-400 mb-1 font-semibold">Disponível: R$ {availableBRL.toFixed(2)}</p>
+        <p className="text-sm text-gray-300 mb-1">Disponível: R$ {availableBRL.toFixed(2)}</p>
         <p className="text-sm text-gray-400 mb-1">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
         <p className="text-xs text-gray-500">Anunciante: {item.advertiser?.nickName}</p>
       </div>
