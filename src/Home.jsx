@@ -76,10 +76,7 @@ const P2PAnuncios = () => {
           })
         });
         const data = await res.json();
-        const filtered = (data?.data || []).filter(
-          item => item.advertiser?.nickName === "CAST-INTERMEDIACAO"
-        );
-        setter(filtered);
+        setter(data?.data || []);
       } catch (err) {
         console.error(`Erro ao buscar anúncios ${type}:`, err);
       }
@@ -90,15 +87,15 @@ const P2PAnuncios = () => {
   }, []);
 
   const renderAdCard = (item, tipo) => {
-    const totalQuantity = item.adv.tradableQuantity ? `${parseFloat(item.adv.tradableQuantity)} ${item.adv.asset}` : "N/D";
+    const availableBRL = parseFloat(item.adv.price) * parseFloat(item.adv.tradableQuantity || 0);
 
     return (
       <div key={`${tipo}-${item.adv.advNo}`} className="bg-gray-900 p-6 rounded-xl shadow-lg border border-gray-700">
-        <p className="text-lg font-bold text-green-400">Preço: R$ {parseFloat(item.adv.price).toFixed(3)}</p>
+        <p className="text-lg font-bold text-green-400">Preço: R$ {parseFloat(item.adv.price).toFixed(2)}</p>
         <p className="text-sm text-gray-300">Tipo: {tipo === "BUY" ? "Comprar da CAST" : "Vender para a CAST"}</p>
         <p className="text-sm text-gray-300">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
         <p className="text-sm text-gray-300">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-        <p className="text-sm text-gray-300">Disponível: {totalQuantity}</p>
+        <p className="text-sm text-gray-300">Disponível: R$ {availableBRL.toFixed(2)}</p>
         <p className="text-sm text-gray-400">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
         <p className="text-xs text-gray-500">Anunciante: {item.advertiser?.nickName}</p>
       </div>
