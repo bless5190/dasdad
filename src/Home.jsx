@@ -103,10 +103,10 @@ const P2PAnuncios = () => {
     return (
       <div key={`${tipo}-${item.adv.advNo}`} className="bg-gradient-to-br from-green-900 via-gray-800 to-green-900 p-5 rounded-xl shadow-md border border-gray-700 hover:shadow-lg transition-shadow">
         <h4 className="text-lg font-bold text-green-300 mb-1">{item.adv.asset}/{item.adv.fiat}</h4>
-        <p className="text-green-400 font-semibold mb-1">Preço: R$ {parseFloat(item.adv.price).toFixed(2)}</p>
+        <p className="text-green-400 font-semibold mb-1">Preço: R$ {parseFloat(item.adv.price).toFixed(3)}</p>
         <p className="text-sm text-gray-300 mb-1">Tipo: {tipo === "BUY" ? "Comprar da CAST" : "Vender para a CAST"}</p>
         <p className="text-sm text-gray-300 mb-1">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-        <p className="text-sm text-gray-300 mb-1">Disponível: R$ {availableBRL.toFixed(2)}</p>
+        <p className="text-sm text-gray-300 mb-1">Disponível: R$ {availableBRL.toFixed(3)}</p>
         <p className="text-sm text-gray-400 mb-1">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
         <p className="text-xs text-gray-500">Anunciante: {item.advertiser?.nickName}</p>
       </div>
