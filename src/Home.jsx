@@ -6,22 +6,25 @@ const CryptoPrice = ({ id, label }) => {
   const [price, setPrice] = useState(null);
 
   useEffect(() => {
-  const fetchPrice = () => {
-    fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=brl`)
-      .then(res => res.json())
-      .then(data => setPrice(data[id]?.brl));
-  };
+    const fetchPrice = async () => {
+      try {
+        const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${id.toUpperCase()}BRL`);
+        const data = await res.json();
+        setPrice(parseFloat(data.price));
+      } catch (error) {
+        console.error("Erro ao buscar preço de mercado da Binance:", error);
+      }
+    };
 
-  fetchPrice();
-  const interval = setInterval(fetchPrice, 30000); // ✅ Atualiza a cada 30s
-
-  return () => clearInterval(interval);
-}, [id]);
+    fetchPrice();
+    const interval = setInterval(fetchPrice, 30000);
+    return () => clearInterval(interval);
+  }, [id]);
 
   return (
-   <div className="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-800 rounded p-3 shadow w-full gap-2 sm:gap-0">
+    <div className="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-800 rounded p-3 shadow w-full gap-2 sm:gap-0">
       <span className="text-green-400 font-semibold">{label}</span>
-     <span className="text-white">{price ? `R$ ${price.toFixed(3)}` : '...'}</span>
+      <span className="text-white">{price ? `R$ ${price.toFixed(3)}` : '...'}</span>
     </div>
   );
 };
@@ -31,23 +34,21 @@ const P2PAnuncios = () => {
   const [sellAds, setSellAds] = useState([]);
 
   useEffect(() => {
-    const fetchAds = async (type, setter) => {
+    const fetchAds = async (tradeType, setter) => {
       try {
         const res = await fetch('https://binance-proxy-roan.vercel.app/api/binance', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             nickname: "CAST-INTERMEDIACAO",
-            tradeType: type
+            tradeType,
+            rows: 100
           })
         });
         const data = await res.json();
-        const filtered = (data?.data || []).filter(
-          item => item.advertiser?.nickName === "CAST-INTERMEDIACAO"
-        );
-        setter(filtered);
+        setter(data?.data || []);
       } catch (err) {
-        console.error(`Erro ao buscar anúncios ${type}:`, err);
+        console.error(`Erro ao buscar anúncios (${tradeType}):`, err);
       }
     };
 
@@ -55,38 +56,29 @@ const P2PAnuncios = () => {
     fetchAds("SELL", setSellAds);
   }, []);
 
+  const renderAds = (ads, tipo) => (
+    ads.map((item, index) => (
+      <div key={`${tipo}-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
+        <p className="text-green-400 font-semibold">Preço: R$ {parseFloat(item.adv.price).toFixed(2)}</p>
+        <p className="text-gray-300 text-sm">Tipo: {tipo === "BUY" ? "Comprar da CAST" : "Vender para a CAST"}</p>
+        <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
+        <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
+        <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
+        <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
+      </div>
+    ))
+  );
+
   return (
     <div className="space-y-8">
       <div>
         <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Compra</h3>
-        {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
-          buyAds.map((item, index) => (
-            <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: Comprar da CAST</p>
-              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
-            </div>
-          ))
-        )}
+        {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : renderAds(buyAds, "BUY")}
       </div>
 
       <div>
         <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Venda</h3>
-        {sellAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
-          sellAds.map((item, index) => (
-            <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: Vender para a CAST</p>
-              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
-            </div>
-          ))
-        )}
+        {sellAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : renderAds(sellAds, "SELL")}
       </div>
     </div>
   );
@@ -149,33 +141,24 @@ const Home = () => {
         </div>
       </section>
 
+      <section id="servicos" className="py-20 px-6 bg-gray-800">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-8">Cotações em tempo real (Binance)</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <CryptoPrice id="BTC" label="BTC/BRL" />
+            <CryptoPrice id="ETH" label="ETH/BRL" />
+            <CryptoPrice id="USDT" label="USDT/BRL" />
+            <CryptoPrice id="BNB" label="BNB/BRL" />
+            <CryptoPrice id="SOL" label="SOL/BRL" />
+            <CryptoPrice id="BCH" label="BCH/BRL" />
+          </div>
+        </div>
+      </section>
+
       <section id="anuncios" className="py-20 px-6 bg-gray-900">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-6">Anúncios CAST-INTERMEDIACAO</h2>
           <P2PAnuncios />
-        </div>
-      </section>
-
-      <section id="servicos" className="py-20 px-6 bg-gray-800">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">Serviços</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-xl border border-gray-700 text-left">
-              <h3 className="text-xl font-bold mb-4">Cotações em tempo real</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <CryptoPrice id="bitcoin" label="BTC" />
-                <CryptoPrice id="ethereum" label="ETH" />
-                <CryptoPrice id="tether" label="USDT" />
-                <CryptoPrice id="binancecoin" label="BNB" />
-              </div>
-            </div>
-            <div className="bg-gray-700 p-6 rounded-xl shadow flex flex-col justify-center items-center">
-              <p className="text-2xl font-bold mb-4">Deseja comprar ou vender criptoativos?</p>
-              <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl text-white text-lg">
-                <FaWhatsapp /> Fale pelo WhatsApp
-              </a>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -194,6 +177,9 @@ const Home = () => {
           </ul>
         </div>
       </section>
+    </motion.div>
+  );
+};
             <section id="feedbacks" className="py-20 px-6 bg-gray-900">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-10 flex items-center justify-center gap-2">
@@ -261,3 +247,4 @@ const Home = () => {
 
 export default Home;
 export { CryptoPrice, P2PAnuncios };
+
