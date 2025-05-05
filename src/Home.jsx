@@ -101,7 +101,7 @@ const P2PAnuncios = () => {
     const availableBRL = parseFloat(item.adv.price) * parseFloat(item.adv.tradableQuantity || 0);
 
     return (
-      <div key={`${tipo}-${item.adv.advNo}`} className="bg-gray-800 p-5 rounded-xl shadow-md border border-gray-700 hover:shadow-lg transition-shadow">
+      <div key={`${tipo}-${item.adv.advNo}`} className="bg-gradient-to-br from-green-900 via-gray-800 to-green-900 p-5 rounded-xl shadow-md border border-gray-700 hover:shadow-lg transition-shadow">
         <h4 className="text-lg font-bold text-green-300 mb-1">{item.adv.asset}/{item.adv.fiat}</h4>
         <p className="text-green-400 font-semibold mb-1">Preço: R$ {parseFloat(item.adv.price).toFixed(2)}</p>
         <p className="text-sm text-gray-300 mb-1">Tipo: {tipo === "BUY" ? "Comprar da CAST" : "Vender para a CAST"}</p>
@@ -115,6 +115,10 @@ const P2PAnuncios = () => {
 
   return (
     <div className="space-y-10">
+      <div className="text-center">
+        <img src="/Emblema.png" alt="CAST Emblema" className="mx-auto h-24 mb-4 opacity-90" />
+        <h2 className="text-3xl font-bold text-green-400 mb-8">Anúncios CAST-INTERMEDIACAO</h2>
+      </div>
       <div>
         <h3 className="text-2xl font-bold text-green-400 mb-6">Anúncios de Compra</h3>
         {buyAds.length === 0 ? <p className="text-gray-400">Nenhum anúncio disponível.</p> : (
