@@ -199,7 +199,6 @@ const Home = () => {
 
       <section id="anuncios" className="py-20 px-6 bg-gray-900">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Anúncios CAST-INTERMEDIACAO</h2>
           <P2PAnuncios />
         </div>
       </section>
