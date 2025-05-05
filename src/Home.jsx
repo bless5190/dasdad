@@ -104,14 +104,16 @@ const Home = () => {
         const parser = new DOMParser();
         const xml = parser.parseFromString(data.contents, 'text/xml');
         const items = xml.querySelectorAll('item');
-        const newsItems = Array.from(items).slice(0, 5).map(item => ({
-          title: item.querySelector('title')?.textContent || '',
-          link: item.querySelector('link')?.textContent || '#',
-          date: item.querySelector('pubDate')?.textContent || ''
-        }));
-        setNews(newsItems);
-      });
-  }, []);
+        const newsItems = Array.from(items).slice(0, 5).map(item => {
+  const titleRaw = item.querySelector('title')?.textContent || '';
+  const textArea = document.createElement('textarea');
+  textArea.innerHTML = titleRaw;
+  return {
+    title: textArea.value,
+    link: item.querySelector('link')?.textContent || '#',
+    date: item.querySelector('pubDate')?.textContent || ''
+  };
+});
 
   return (
     <motion.div className="min-h-screen bg-gray-950 text-white font-sans">
