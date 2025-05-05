@@ -71,7 +71,8 @@ const P2PAnuncios = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             nickname: "CAST-INTERMEDIACAO",
-            tradeType: type
+            tradeType: type,
+            rows: 100
           })
         });
         const data = await res.json();
@@ -88,37 +89,39 @@ const P2PAnuncios = () => {
     fetchAds("SELL", setSellAds);
   }, []);
 
+  const renderAdCard = (item, tipo) => {
+    const totalQuantity = item.adv.tradableQuantity ? `${parseFloat(item.adv.tradableQuantity)} ${item.adv.asset}` : "N/D";
+
+    return (
+      <div key={`${tipo}-${item.adv.advNo}`} className="bg-gray-900 p-6 rounded-xl shadow-lg border border-gray-700">
+        <p className="text-lg font-bold text-green-400">Preço: R$ {parseFloat(item.adv.price).toFixed(2)}</p>
+        <p className="text-sm text-gray-300">Tipo: {tipo === "BUY" ? "Comprar da CAST" : "Vender para a CAST"}</p>
+        <p className="text-sm text-gray-300">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
+        <p className="text-sm text-gray-300">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
+        <p className="text-sm text-gray-300">Disponível: {totalQuantity}</p>
+        <p className="text-sm text-gray-400">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
+        <p className="text-xs text-gray-500">Anunciante: {item.advertiser?.nickName}</p>
+      </div>
+    );
+  };
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <div>
-        <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Compra</h3>
-        {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
-          buyAds.map((item, index) => (
-            <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: Comprar da CAST</p>
-              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
-            </div>
-          ))
+        <h3 className="text-xl font-bold text-green-400 mb-6">Anúncios de Compra</h3>
+        {buyAds.length === 0 ? <p className="text-gray-400">Nenhum anúncio disponível.</p> : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {buyAds.map(ad => renderAdCard(ad, "BUY"))}
+          </div>
         )}
       </div>
 
       <div>
-        <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Venda</h3>
-        {sellAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
-          sellAds.map((item, index) => (
-            <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-              <p className="text-gray-300 text-sm">Tipo: Vender para a CAST</p>
-              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
-            </div>
-          ))
+        <h3 className="text-xl font-bold text-green-400 mb-6">Anúncios de Venda</h3>
+        {sellAds.length === 0 ? <p className="text-gray-400">Nenhum anúncio disponível.</p> : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {sellAds.map(ad => renderAdCard(ad, "SELL"))}
+          </div>
         )}
       </div>
     </div>
