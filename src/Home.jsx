@@ -117,7 +117,6 @@ const P2PAnuncios = () => {
     <div className="space-y-10">
       <div className="text-center">
         <img src="/Emblema.png" alt="CAST Emblema" className="mx-auto h-24 mb-4 opacity-90" />
-        <h2 className="text-3xl font-bold text-green-400 mb-8">Anúncios CAST-INTERMEDIACAO</h2>
       </div>
       <div>
         <h3 className="text-2xl font-bold text-green-400 mb-6">Anúncios de Compra</h3>
