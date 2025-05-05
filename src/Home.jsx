@@ -29,6 +29,35 @@ const CryptoPrice = ({ id, label }) => {
   );
 };
 
+const BCHPrice = () => {
+  const [price, setPrice] = useState(null);
+
+  useEffect(() => {
+    const fetchPrice = async () => {
+      try {
+        const res1 = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=BCHUSDT");
+        const res2 = await fetch("https://api.binance.com/api/v3/ticker/price?symbol=USDTBRL");
+        const data1 = await res1.json();
+        const data2 = await res2.json();
+        const priceBRL = parseFloat(data1.price) * parseFloat(data2.price);
+        setPrice(priceBRL);
+      } catch (err) {
+        console.error("Erro ao calcular preço do BCH/BRL:", err);
+      }
+    };
+
+    fetchPrice();
+    const interval = setInterval(fetchPrice, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-800 rounded p-3 shadow w-full gap-2 sm:gap-0">
+      <span className="text-green-400 font-semibold">BCH/BRL</span>
+      <span className="text-white">{price ? `R$ ${price.toFixed(3)}` : '...'}</span>
+    </div>
+  );
+};
 
 const P2PAnuncios = () => {
   const [buyAds, setBuyAds] = useState([]);
@@ -172,7 +201,7 @@ const Home = () => {
 <CryptoPrice id="USDTBRL" label="USDT/BRL" />
 <CryptoPrice id="BNBBRL" label="BNB/BRL" />
 <CryptoPrice id="SOLBRL" label="SOL/BRL" />
-<CryptoPrice id="BCHBRL" label="BCH/BRL" />
+<BCHPrice />
               </div>
             </div>
             <div className="bg-gray-700 p-6 rounded-xl shadow flex flex-col justify-center items-center">
@@ -266,5 +295,6 @@ const Home = () => {
 };
 
 export default Home;
-export { CryptoPrice, P2PAnuncios };
+export { CryptoPrice, P2PAnuncios, BCHPrice };
+
 
