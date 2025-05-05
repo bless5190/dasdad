@@ -2,23 +2,24 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaBitcoin, FaWhatsapp, FaShieldAlt, FaUserCheck, FaStar } from "react-icons/fa";
 
-const CryptoPrice = ({ symbol, label }) => {
+const CryptoPrice = ({ id, label }) => {
   const [price, setPrice] = useState(null);
 
   useEffect(() => {
     const fetchPrice = () => {
-      fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`)
+      fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${id}`)
         .then(res => res.json())
         .then(data => {
           const priceBRL = parseFloat(data.price);
           setPrice(priceBRL);
-        });
+        })
+        .catch(err => console.error("Erro ao buscar preço:", err));
     };
 
     fetchPrice();
     const interval = setInterval(fetchPrice, 30000);
     return () => clearInterval(interval);
-  }, [symbol]);
+  }, [id]);
 
   return (
     <div className="flex flex-col sm:flex-row sm:justify-between items-center bg-gray-800 rounded p-3 shadow w-full gap-2 sm:gap-0">
@@ -27,6 +28,7 @@ const CryptoPrice = ({ symbol, label }) => {
     </div>
   );
 };
+
 
 const P2PAnuncios = () => {
   const [buyAds, setBuyAds] = useState([]);
@@ -104,15 +106,11 @@ const Home = () => {
         const parser = new DOMParser();
         const xml = parser.parseFromString(data.contents, 'text/xml');
         const items = xml.querySelectorAll('item');
-        const newsItems = Array.from(items).slice(0, 5).map(item => {
-          const titleRaw = item.querySelector('title')?.textContent || '';
-          const decodedTitle = new DOMParser().parseFromString(`<!doctype html><body>${titleRaw}`, 'text/html').body.textContent || '';
-          return {
-            title: decodedTitle,
-            link: item.querySelector('link')?.textContent || '#',
-            date: item.querySelector('pubDate')?.textContent || ''
-          };
-        });
+        const newsItems = Array.from(items).slice(0, 5).map(item => ({
+          title: item.querySelector('title')?.textContent.replace(/<!\[CDATA\[|\]\]>/g, '').replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec)) || '',
+          link: item.querySelector('link')?.textContent || '#',
+          date: item.querySelector('pubDate')?.textContent || ''
+        }));
         setNews(newsItems);
       });
   }, []);
@@ -131,7 +129,78 @@ const Home = () => {
         </nav>
       </header>
 
-      <section id="feedbacks" className="py-20 px-6 bg-gray-900">
+      <section id="inicio" className="text-center py-20 px-6">
+        <img src="/Emblema.png" alt="CAST Logo Emblema" className="mx-auto h-48 mb-6 opacity-80" />
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-6">CAST SERVIÇOS DIGITAIS</h1>
+        <p className="text-lg md:text-xl bg-black/60 p-4 rounded-xl max-w-2xl mx-auto">
+          Compra e venda de criptoativos com segurança, transparência e atendimento humanizado.
+        </p>
+        <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 mt-8 bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl text-lg">
+          <FaWhatsapp /> Fale pelo WhatsApp
+        </a>
+      </section>
+
+      <section id="sobre" className="py-20 px-6 text-center bg-gray-900">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-extrabold text-green-400 mb-8">Sobre a CAST</h2>
+          <p className="text-gray-300 leading-relaxed">
+            A CAST Serviços Digitais é uma empresa respeitada e sólida no mercado de compra e venda de criptoativos, atuando sempre com excelência, respeito e transparência.
+            Seguindo os padrões mais altos de atendimento humano. Com taxas extremamente competitivas no mercado.
+            <br /><br />
+            A CAST possui como objetivo proporcionar uma acessibilidade com confiança para nossos clientes, é por isso que sempre estamos investindo em novas soluções, e em nossa infraestrutura.
+            Te convidamos a vir conhecer o nosso trabalho, será um prazer ter você como cliente. Aqui, valorizamos extremamente você!
+          </p>
+        </div>
+      </section>
+
+      <section id="anuncios" className="py-20 px-6 bg-gray-900">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-6">Anúncios CAST-INTERMEDIACAO</h2>
+          <P2PAnuncios />
+        </div>
+      </section>
+
+      <section id="servicos" className="py-20 px-6 bg-gray-800">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-8">Serviços</h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-2xl shadow-xl border border-gray-700 text-left">
+              <h3 className="text-xl font-bold mb-4">Cotações em tempo real</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <CryptoPrice id="BTCBRL" label="BTC/BRL" />
+<CryptoPrice id="ETHBRL" label="ETH/BRL" />
+<CryptoPrice id="USDTBRL" label="USDT/BRL" />
+<CryptoPrice id="BNBBRL" label="BNB/BRL" />
+<CryptoPrice id="SOLBRL" label="SOL/BRL" />
+<CryptoPrice id="BCHBRL" label="BCH/BRL" />
+              </div>
+            </div>
+            <div className="bg-gray-700 p-6 rounded-xl shadow flex flex-col justify-center items-center">
+              <p className="text-2xl font-bold mb-4">Deseja comprar ou vender criptoativos?</p>
+              <a href="https://wa.me/5516991864142" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 px-6 py-3 rounded-xl text-white text-lg">
+                <FaWhatsapp /> Fale pelo WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="noticias" className="py-20 px-6 bg-gray-800">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-green-400 mb-6">Notícias</h2>
+          <ul className="space-y-4">
+            {news.map((item, index) => (
+              <li key={index} className="text-left bg-gray-700 p-4 rounded-xl">
+                <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-green-400 hover:underline text-lg">
+                  {item.title}
+                </a>
+                <p className="text-sm text-gray-400">{new Date(item.date).toLocaleDateString('pt-BR')}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+            <section id="feedbacks" className="py-20 px-6 bg-gray-900">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-10 flex items-center justify-center gap-2">
             <FaStar className="text-yellow-400" /> Feedbacks dos Clientes
@@ -184,17 +253,18 @@ const Home = () => {
           </form>
         </div>
       </section>
-
-      <footer className="bg-gray-950 text-center py-6 border-t border-gray-800 mt-10 text-gray-500 text-sm">
+            <footer className="bg-gray-950 text-center py-6 border-t border-gray-800 mt-10 text-gray-500 text-sm">
         <div className="mb-2">
           <img src="/Emblema.png" alt="CAST Logo Rodapé" className="h-10 inline-block mr-2 opacity-80" />
           CAST SERVIÇOS DIGITAIS — Empresa verificada na Binance • 100% avaliações positivas
         </div>
         <p>© 2025 CAST Serviços Digitais. Todos os direitos reservados.</p>
       </footer>
+    
     </motion.div>
   );
 };
 
 export default Home;
 export { CryptoPrice, P2PAnuncios };
+
