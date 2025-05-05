@@ -69,11 +69,10 @@ const P2PAnuncios = () => {
         const res = await fetch('https://binance-proxy-roan.vercel.app/api/binance', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({
-  nickname: "CAST-INTERMEDIACAO",
-  tradeType: type,
-  rows: 100 // 🔄 aumenta a quantidade de anúncios retornados
-})
+          body: JSON.stringify({
+            nickname: "CAST-INTERMEDIACAO",
+            tradeType: type
+          })
         });
         const data = await res.json();
         const filtered = (data?.data || []).filter(
@@ -94,35 +93,35 @@ const P2PAnuncios = () => {
       <div>
         <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Compra</h3>
         {buyAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-    {buyAds.map((item, index) => (
-      <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-        <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-        <p className="text-gray-300 text-sm">Tipo: Comprar da CAST</p>
-        <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-        <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-        <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-        <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
+          buyAds.map((item, index) => (
+            <div key={`buy-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
+              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
+              <p className="text-gray-300 text-sm">Tipo: Comprar da CAST</p>
+              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
+              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
+              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
+              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
+            </div>
+          ))
+        )}
       </div>
-    ))}
-  </div>
-)}
 
       <div>
         <h3 className="text-xl font-bold text-green-400 mb-4">Anúncios de Venda</h3>
         {sellAds.length === 0 ? <p>No momento não temos nenhum anúncio disponível.</p> : (
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-  {sellAds.map((item, index) => (
-    <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
-      <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
-      <p className="text-gray-300 text-sm">Tipo: Vender para a CAST</p>
-      <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
-      <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
-      <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
-      <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
+          sellAds.map((item, index) => (
+            <div key={`sell-${index}`} className="bg-gray-900 p-4 rounded shadow text-left">
+              <p className="text-green-400 font-semibold">Preço: R$ {item.adv.price}</p>
+              <p className="text-gray-300 text-sm">Tipo: Vender para a CAST</p>
+              <p className="text-gray-300 text-sm">Ativo: {item.adv.asset}/{item.adv.fiat}</p>
+              <p className="text-gray-300 text-sm">Limite: {item.adv.minSingleTransAmount} - {item.adv.maxSingleTransAmount} {item.adv.fiat}</p>
+              <p className="text-gray-400 text-sm">Método: {item.adv.tradeMethods[0]?.tradeMethodName}</p>
+              <p className="text-gray-500 text-xs">Anunciante: {item.advertiser?.nickName}</p>
+            </div>
+          ))
+        )}
+      </div>
     </div>
-  ))}
-</div>
   );
 };
 
@@ -297,5 +296,7 @@ const Home = () => {
 
 export default Home;
 export { CryptoPrice, P2PAnuncios, BCHPrice };
+
+
 
 
