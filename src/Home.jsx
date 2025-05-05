@@ -76,6 +76,7 @@ const P2PAnuncios = () => {
           })
         });
         const data = await res.json();
+        console.log(`🔎 ${type} ads recebidos:`, data?.data);
         setter(data?.data || []);
       } catch (err) {
         console.error(`Erro ao buscar anúncios ${type}:`, err);
